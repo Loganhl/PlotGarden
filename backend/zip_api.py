@@ -1,10 +1,4 @@
 import httpx
-import asyncio
-
-soil_type = ''
-garden_size = [0,0]
-zipcode = '65201' 
-crops = ["test1", "test2"]
 
 async def get_zone_number(zipcode):
     url = f"https://phzmapi.org/{zipcode}.json"
@@ -21,7 +15,4 @@ async def get_zone_number(zipcode):
             print(f"Failed to get data: {response.status_code}")
             return None
 
-data = asyncio.run(get_zone_number(zipcode))
 
-if data:
-    print(data)
