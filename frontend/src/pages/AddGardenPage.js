@@ -4,6 +4,10 @@ import { useState, useContext } from 'react';
 function AddGardenPage(){
 
     const [state, setState] = useState({
+        gardenName: '',
+        gardenLocation: '',
+        gardenDescription: '',
+        gardenImage: '',
         gardenLength: '',
         gardenWidth: '',
         zipCode: ''
@@ -24,6 +28,49 @@ function AddGardenPage(){
             <h1>Add Garden</h1>
 
             <form className="form" onSubmit={handleSubmit}>
+
+                <div className="form-group">
+                    <label for="garden_name">Name:</label>
+                    <input
+                        type = "text"
+                        name="garden_name"
+                        value={state.gardenName}
+                        onChange={updateState}
+                    />
+                </div>
+
+                
+                <div className="form-group">
+                    <label for="garden_location">Location:</label>
+                    <input
+                        type = "text"
+                        name="garden_location"
+                        value={state.gardenLocation}
+                        onChange={updateState}
+                    />
+                </div>
+
+                
+                <div className="form-group">
+                    <label for="garden_description">Description:</label>
+                    <input
+                        type = "text"
+                        name="garden_description"
+                        value={state.gardenDescription}
+                        onChange={updateState}
+                    />
+                </div>
+
+                
+                <div className="form-group">
+                    <label for="garden_image">Image Link:</label>
+                    <input
+                        type = "text"
+                        name="garden_image"
+                        value={state.gardenImage}
+                        onChange={updateState}
+                    />
+                </div>
     
                 <div className="form-group">
                     <label for="garden-size">Garden Size: </label>
@@ -51,7 +98,6 @@ function AddGardenPage(){
                         value={state.region}
                         onChange={updateState}
                     />
-
                 </div>
 
                 <button className="next">Next</button>
