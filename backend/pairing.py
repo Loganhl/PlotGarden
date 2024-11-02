@@ -104,6 +104,7 @@ categorize_plants()
 
 # Print Testing
 garden_dimensions = [25, 52]
+print(type(garden_dimensions))
 size_code = calculate_size(garden_dimensions)
 recommended_crops = pair_size(size_code)
 print(f"Recommended crops for a garden of size {size_code}: {recommended_crops}")

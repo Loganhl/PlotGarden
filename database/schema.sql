@@ -45,6 +45,7 @@ CREATE TABLE crops (
     garden_id INTEGER NOT NULL,
     id INTEGER NOT NULL,
     crop_name TEXT NOT NULL,
+    quantity INTEGER NOT NULL,
     FOREIGN KEY (garden_id) REFERENCES gardens(garden_id),
     FOREIGN KEY (id) REFERENCES plants(id)
 );
