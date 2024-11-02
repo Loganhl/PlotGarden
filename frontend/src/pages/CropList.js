@@ -17,15 +17,18 @@ function SelectCropsPage(){
 
 
     return(
-        <div>
-            <h1>Select Crops</h1>
-            <ul>
+        <div className="background">
+            <h1 className="title">Plant Library</h1>
+            <div className="plant-grid">
                 {plants.map(plant => (
-                    <li key={plant.id}>
-                        <Link to={`/crop/${plant.id}`}>{plant.common_name}</Link>
-                    </li>
+                    <div key={plant.id} className="plant-card">
+                            <Link to={`/crop/${plant.id}`}>
+                                <img src={plant.default_image} alt={plant.common_name} className="plant-image" />
+                                <p className="plant-name">{plant.common_name}</p>
+                            </Link>
+                    </div>
                 ))}
-            </ul>
+            </div>
         </div>
     )
 }

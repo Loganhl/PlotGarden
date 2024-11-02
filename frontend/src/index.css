@@ -1,11 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap');
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
+@import url('https://fonts.googleapis.com/css2?family=Irish+Grover&family=Lexend:wght@100..900&display=swap');
 
 body {
-  font-family: "Courier New", monospace;
+  font-family: "Lexend", sans-serif;
   background-image: linear-gradient(to right, #164A41, #4D774E, #9DC88D);
   margin: 20px;
   font-size: large;
+  color: white;
 }
 
 nav {
@@ -17,7 +19,7 @@ nav {
 }
 
 .navbar img {
-  width: 70px;
+  width: 60px;
   margin-right: 15px;
 }
 
@@ -25,6 +27,7 @@ nav {
   margin-right: auto;
   font-family: 'Irish Grover';
   text-align: left;
+  font-size: larger;
 }
 
 .sidebtn {
@@ -211,6 +214,49 @@ ul {
   margin-left: 50px;
   margin-right: 50px;
   font-size: larger;
+}
+
+.background {
+  background-color: rgba(255, 255, 255, 0.25);
+  padding: 5px;
+  border-radius: 15px;
+}
+
+.background h1 {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  font-size: 50px;
+  background-color: rgba(255, 255, 255, 0.25);
+  color:#164A41;
+  margin: 15px;
+  height: 70px;
+  border-radius: 15px;
+}
+
+.plant-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+  padding: 20px;
+}
+
+.plant-card {
+  text-align: center;
+  text-transform: capitalize;
+}
+
+.plant-name {
+  color: white;
+  margin-top: 8px;;
+  text-decoration: inherit;
+}
+
+.plant-image {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+  transition: transform 0.2s;
 }
 
 @media (max-width: 768px) {
