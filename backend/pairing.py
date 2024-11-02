@@ -40,10 +40,8 @@ async def get_user_zone(zipcode):
     return await get_zone_number(zipcode)
 
 def get_zip_match(user_zip):
-    zipcode = user_zip
-    
     # Run the asynchronous get_user_zone function to get the zone number.
-    user_zone = asyncio.run(get_user_zone(zipcode))
+    user_zone = asyncio.run(get_user_zone(user_zip))
     
     conn = sqlite3.connect('database/database.db')
     cursor = conn.cursor()
@@ -99,35 +97,42 @@ def categorize_plants():
 
     conn.close()
 
-# Categorize plants by size and maintenance level at the start.
-categorize_plants()
+def get_garden_info(garden_id):
+    conn = sqlite3.connect('database/database.db')
+    cursor = conn.cursor()
+    
+    # Query the database to retrieve garden dimensions and zip code for the specified garden_id.
+    cursor.execute("SELECT garden_len, garden_wid, location FROM gardens WHERE garden_id = ?", (garden_id,))
+    garden = cursor.fetchone()
+    
+    conn.close()
+    
+    if garden:
+        garden_len, garden_wid, zipcode = garden
+        garden_size = (garden_len, garden_wid)
+        size_code = calculate_size(garden_size)
+        recommended_crops = pair_size(size_code)
+        return (zipcode, size_code, recommended_crops)
+    
+    return None
 
-# Print Testing
-garden_dimensions = [25, 52]
-#print(type(garden_dimensions))
-size_code = calculate_size(garden_dimensions)
-recommended_crops = pair_size(size_code)
+# The present_plant_ids function can be imported and called from other code.
+def present_plant_ids(garden_id):
+    # Categorize plants by size and maintenance level at the start.
+    categorize_plants()
 
-print(f"Recommended crops for a garden of size {size_code}: {recommended_crops}")
-print('-------------------------------------------------------------------------')
-user_zip = '65201'
-matching_plants = get_zip_match(user_zip)
-print(f"Plants matching the user's zone: {matching_plants}")
-print('-------------------------------------------------------------------------')
-
-print(f"Crop categories: {crop_size_categories}")
-print('-------------------------------------------------------------------------')
-print(f"Maintenance categories: {maintain_categories}")
-print('-------------------------------------------------------------------------')
-
-# Print all plants organized by size
-print("Plants categorized by size:")
-print('-------------------------------------------------------------------------')
-for size, plants in crop_size_categories.items():
-    print(f"{size.capitalize()} plants: {plants}")
-
-# Print maintenance categories
-print('-------------------------------------------------------------------------')
-print("Plants categorized by maintenance:")
-for level, plants in maintain_categories.items():
-    print(f"{level} maintenance: {plants}")
+    # Get garden info for the given garden_id
+    garden_info = get_garden_info(garden_id)
+    
+    if garden_info:
+        zipcode, size_code, recommended_crops = garden_info
+        user_zone = asyncio.run(get_user_zone(zipcode))
+        matching_plants = get_zip_match(zipcode)
+        
+        return {
+            "matching_plants": matching_plants,
+            "maintain_categories": maintain_categories,
+            "recommended_crops": recommended_crops
+        }
+    
+    return None
