@@ -1,6 +1,6 @@
 
 
-function SoilGuidePage(){
+function GuidePage(){
     return(
         <div>
             <h1>Soil Guide Page</h1>
@@ -8,4 +8,4 @@ function SoilGuidePage(){
     )
 }
 
-export default SoilGuidePage;
+export default GuidePage;

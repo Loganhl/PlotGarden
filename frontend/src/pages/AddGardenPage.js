@@ -17,6 +17,7 @@ function AddGardenPage(){
     const handleSubmit = event => {
         event.preventDefault();
        //Post to Backend
+       //Garden size format -> "10,10"
     }
 
     return(

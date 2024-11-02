@@ -14,9 +14,9 @@ import HomePage from './pages/HomePage';
 import GardenPage from './pages/GardenPage';
 import CropPage from './pages/CropPage';
 import SelectCropsPage from './pages/SelectCropsPage';
-import SoilGuidePage from './pages/SoilGuide';
+import GuidePage from './pages/GuidePage';
 import AddGardenPage from './pages/AddGardenPage';
-import Profile from './components/Profile';
+import AllCropsPage from './pages/AllCropsPage'
 
 function App() {
 
@@ -64,9 +64,14 @@ function App() {
             <SelectCropsPage />
           )
         }/>
-        <Route path="/soil-guide" element={
+        <Route path="/all-crops" element={
           isAuthenticated && (
-            <SoilGuidePage />
+            <AllCropsPage />
+          )
+        }/>
+        <Route path="/guide" element={
+          isAuthenticated && (
+            <GuidePage />
           )
         }/>
 
