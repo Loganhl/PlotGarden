@@ -1,6 +1,8 @@
 body {
   font-family: "Courier New", monospace;
   background-color: #7fae71;
+  margin: 20px;
+  font-size: large;
 }
 
 nav {
@@ -92,4 +94,61 @@ input[name="gardenLength"], input[name="gardenWidth"] {
 
 .next:hover {
   background-color: #5b834f;
+}
+
+ul {
+  text-transform: capitalize;
+  list-style-type: none;
+}
+
+.crop-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.name-container {
+  text-transform: capitalize;
+  text-align: left;
+  margin-left: 30px;
+}
+
+.name-container h2 {
+  font-style: italic;
+}
+
+.content-container {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.image-container {
+  flex: 3;
+  min-width: 200px;
+}
+
+.image-container img {
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+}
+
+.info-container {
+  flex: 2;
+  padding: 20px;
+
+}
+
+.description-container {
+  padding: 20px;
+  margin-left: 50px;
+  margin-right: 50px;
+  font-size: larger;
+}
+
+@media (max-width: 768px) {
+  .content-container {
+    flex-direction: column;
+  }
 }

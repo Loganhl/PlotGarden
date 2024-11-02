@@ -15,10 +15,6 @@ function SelectCropsPage(){
         });
     }, []);
 
-    const capitalizeFirstLetter = (string) => {
-        if (!string) return "";
-        return string.charAt(0).toUpperCase() + string.slice(1);
-    };
 
     return(
         <div>
@@ -26,7 +22,7 @@ function SelectCropsPage(){
             <ul>
                 {plants.map(plant => (
                     <li key={plant.id}>
-                        <Link to={`/crop/${plant.id}`}>{capitalizeFirstLetter(plant.common_name)}</Link>
+                        <Link to={`/crop/${plant.id}`}>{plant.common_name}</Link>
                     </li>
                 ))}
             </ul>

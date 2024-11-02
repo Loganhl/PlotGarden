@@ -27,11 +27,6 @@ function CropPage() {
         fetchPlant();
     }, [id]);
 
-    const capitalizeFirstLetter = (string) => {
-        if (!string) return "";
-        return string.charAt(0).toUpperCase() + string.slice(1);
-    };
-
     if (loading) {
         return <h2>Loading...</h2>;
     }
@@ -41,12 +36,27 @@ function CropPage() {
     }
 
     return (
-        <div>
-            <h1>{capitalizeFirstLetter(plant.common_name)}</h1>
-            <h2>{plant.scientific_name}</h2>
-            <img src={plant.default_image} alt={plant.common_name} />
-            <p>Description: {plant.description}</p>
-        </div>
+        <div className="plant-container">
+            <div className="name-container">
+                <h1>{plant.common_name}</h1>
+                <h2>{plant.scientific_name}</h2>
+            </div>
+            <div className = "content-container">
+                <div className="image-container">
+                    <img src={plant.default_image} alt={plant.common_name} />
+                </div>
+                <div className = "info-container">
+                    <ul>
+                        <li>Cycle: {plant.cycle}</li>
+                    </ul>
+                </div>
+            </div>
+            <div className = "description-container">
+                <h4>Description: </h4>
+                <p>{plant.description}</p>
+            </div>
+            </div>
+
     );
 }
 
