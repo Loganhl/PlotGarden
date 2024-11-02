@@ -40,7 +40,7 @@ function Navbar() {
                 <button class="closebtn" onClick={closeNav}>&times;</button>
                 <Link to="/" onClick={closeNav}>About</Link>
                 <Link to="/garden" onClick={closeNav}>Gardens</Link>
-                <Link to="/" onClick={closeNav}>Plants</Link>
+                <Link to="/crops" onClick={closeNav}>Plants</Link>
                 <Link to="/" onClick={closeNav}>Guides</Link>
                 <LoginButton />
                 <LogoutButton />
