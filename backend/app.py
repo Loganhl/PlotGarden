@@ -2,7 +2,7 @@ import sqlite3
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import os
-
+from pairing import present_plant_ids
 
 app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
@@ -74,3 +74,9 @@ def add_garden():
 
     finally:
         conn.close()
+
+@app.route('/api/present-plants/<int:garden_id>', methods=["GET"])
+def get_present_plants(garden_id):
+    # Call your present_plant_ids function here to retrieve present plant IDs
+    plants_data = present_plant_ids(garden_id)
+    return jsonify(plants_data)
