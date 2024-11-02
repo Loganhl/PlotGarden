@@ -1,44 +1,49 @@
 import { Link } from 'react-router-dom';
 import LoginButton from '../components/LoginButton';
 import LogoutButton from '../components/LogoutButton';
-import { useState, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 
 function Navbar() {
-    const [isOpen, setIsOpen] = useState(false);
+    const sidenavRef = useRef(null);
 
-    // Close dropdown if clicked outside
+    const openNav = () => {
+        document.getElementById("sidenav").style.width = "250px";
+    }
+
+    const closeNav = () => {
+        document.getElementById("sidenav").style.width = "0";
+    }
+
     useEffect(() => {
         const handleClickOutside = (event) => {
-            if (!event.target.closest('.dropdown')) {
-                setIsOpen(false);
+
+            if (sidenavRef.current && !sidenavRef.current.contains(event.target)) {
+                closeNav();
             }
         };
 
-        window.addEventListener('click', handleClickOutside);
-        
+        document.addEventListener('mousedown', handleClickOutside);
+
         return () => {
-            window.removeEventListener('click', handleClickOutside);
+            document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, []);
+    }, [sidenavRef]);
 
     return (
         <nav className="navbar">
             <img src="/logo.png" alt="logo" />
             <h1>Plot<br />Garden</h1>
-            <div className="dropdown">
-                <button className="dropbtn" onClick={() => setIsOpen(prev => !prev)}>
-                    <i className="fa fa-bars"></i>
-                </button>
-                {isOpen && (
-                    <div id="dropdown-menu" className="dropdown-content">
-                        <Link to="/">About</Link>
-                        <Link to="/garden">Gardens</Link>
-                        <Link to="/">Plants</Link>
-                        <Link to="/">Guides</Link>
-                        <LoginButton />
-                        <LogoutButton />
-                    </div>
-                )}
+            <button className="sidebtn" onClick={openNav}>
+                <i className="fa fa-bars"></i>
+            </button>
+            <div id="sidenav" className="sidenav" ref={sidenavRef}>
+                <button class="closebtn" onClick={closeNav}>&times;</button>
+                <Link to="/" onClick={closeNav}>About</Link>
+                <Link to="/garden" onClick={closeNav}>Gardens</Link>
+                <Link to="/" onClick={closeNav}>Plants</Link>
+                <Link to="/" onClick={closeNav}>Guides</Link>
+                <LoginButton />
+                <LogoutButton />
             </div>
         </nav>
     );
