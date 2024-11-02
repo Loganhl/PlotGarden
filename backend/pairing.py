@@ -1,14 +1,7 @@
 import asyncio
 from zip_api import *
 import sqlite3
-
-'''
-recommended_size_list = plants that are in the small category
-recommended_zipcode_list = plants that are in the recommended hardiness zone
-difficulty_easy_list = easy plants
-difficulty_medium_list = medium plants
-difficulty_hard_list = hard plants
-'''
+import re
 
 crop_categories = {
     "small": [],
@@ -28,16 +21,14 @@ def calculate_size(garden_size):
         return 3
 
 def pair_size(size_code):
-    recommended_size_crops = []
-    
+    # Return recommended crops based on the size code.
     if size_code == 1:
-        recommended_size_crops = crop_categories["small"]
+        return crop_categories["small"]
     elif size_code == 2:
-        recommended_size_crops = crop_categories["medium"]
+        return crop_categories["medium"]
     elif size_code == 3:
-        recommended_size_crops = crop_categories["large"]
-
-    return recommended_size_crops
+        return crop_categories["large"]
+    return []
 
 async def get_user_zone(zipcode):
     return await get_zone_number(zipcode)
@@ -58,14 +49,47 @@ def get_zip_match(user_zip):
     plants = cursor.fetchall()
 
     for plant_id, hardiness in plants:
-        # Split the hardiness range (e.g., "5 - 10") and check if user range is a match.
-        min_zone, max_zone = map(int, hardiness.split(' - '))
-        if min_zone <= user_zone <= max_zone:
-            recommended_zipcode_list.append(plant_id)
+        # Check if the hardiness value is not empty and matches the expected format.
+        if hardiness and ' - ' in hardiness:
+            try:
+                # Extract min and max zone values
+                min_zone, max_zone = map(float, hardiness.split(' - '))
+                
+                # Check if the user zone is within the range.
+                if min_zone <= user_zone <= max_zone:
+                    recommended_zipcode_list.append(plant_id)
+            except ValueError:
+                print(f"Skipping plant_id {plant_id} due to invalid hardiness value: {hardiness}")
     
     conn.close()
     
     return recommended_zipcode_list
+
+def categorize_plants_by_size():
+    conn = sqlite3.connect('database/database.db')
+    cursor = conn.cursor()
+    
+    # Query the database to retrieve dimensions.
+    cursor.execute("SELECT id, dimensions FROM plants")
+    plants = cursor.fetchall()
+
+    for plant_id, dimensions in plants:
+        match = re.match(r"(\d*\.?\d+)\s*-\s*(\d*\.?\d+)\s*feet", dimensions)
+        if match:
+            min_size = float(match.group(1))
+
+            # Categorize based on the minimum size.
+            if min_size <= 1:
+                crop_categories["small"].append(plant_id)
+            elif 1 < min_size <= 2:
+                crop_categories["medium"].append(plant_id)
+            else:
+                crop_categories["large"].append(plant_id)
+
+    conn.close()
+
+# Categorize plants by size at the start.
+categorize_plants_by_size()
 
 # Print Testing
 garden_dimensions = [25, 52]
@@ -76,3 +100,5 @@ print(f"Recommended crops for a garden of size {size_code}: {recommended_crops}"
 user_zip = '65201'
 matching_plants = get_zip_match(user_zip)
 print(f"Plants matching the user's zone: {matching_plants}")
+
+print(f"Crop categories: {crop_categories}")
