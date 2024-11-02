@@ -6,6 +6,7 @@ import os
 
 app = Flask(__name__)
 CORS(app)
+
 app.config["DEBUG"] = True
 app.config['SECRET_KEY'] = 'secret key'
 
@@ -23,3 +24,13 @@ def get_plants():
 
     return jsonify([dict(plant) for plant in plants])
     
+@app.route('/api/crop/<int:id>', methods=["GET"])
+def get_crop(id):
+    conn = get_db_connection()
+    crop = conn.execute('SELECT * FROM plants WHERE id = ?', (id,)).fetchone()
+    conn.close()
+
+    if crop is None:
+        return jsonify({"error": "Plant not found"}), 404
+    
+    return jsonify(dict(crop))

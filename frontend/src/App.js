@@ -54,7 +54,7 @@ function App() {
             <AddGardenPage />
           )
         }/>
-        <Route path="/crop" element={
+        <Route path="/crop/:id" element={
           isAuthenticated && (
             <CropPage />
           )
