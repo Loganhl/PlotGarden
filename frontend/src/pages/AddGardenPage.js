@@ -1,16 +1,16 @@
-import { useState, useContext } from 'react';
-
+import { useState } from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
 
 function AddGardenPage(){
-
+    const { user } = useAuth0();
     const [state, setState] = useState({
-        gardenName: '',
-        gardenLocation: '',
-        gardenDescription: '',
-        gardenImage: '',
-        gardenLength: '',
-        gardenWidth: '',
-        zipCode: ''
+        garden_name: '',
+        location: '',
+        description: '',
+        image_link: '',
+        garden_len: '',
+        garden_wid: '',
+        user_id: user ? user.sub : ''
     });
 
     const updateState = event => setState({
@@ -18,10 +18,40 @@ function AddGardenPage(){
         [event.target.name]: event.target.value
     });
 
-    const handleSubmit = event => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-       //Post to Backend
-    }
+
+        const gardenData = {
+            garden_name: state.garden_name,
+            location: state.location,
+            description: state.description,
+            image_link: state.image_link,
+            garden_len: state.garden_len,
+            garden_wid: state.garden_wid,
+            user_id: state.user_id
+        };
+
+        try {
+            const response = await fetch('http://localhost:5000/api/gardens', { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(gardenData) 
+            });
+
+            if (response.ok) {
+                const data = await response.json(); 
+                console.log('Garden added with ID:', data.garden_id); 
+                
+            } else {
+                const errorData = await response.json();
+                console.error('Error adding garden:', errorData.error);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
 
     return(
         <div className="container">
@@ -34,29 +64,18 @@ function AddGardenPage(){
                     <input
                         type = "text"
                         name="garden_name"
-                        value={state.gardenName}
+                        value={state.garden_name}
                         onChange={updateState}
                     />
                 </div>
 
-                
-                <div className="form-group">
-                    <label for="garden_location">Location:</label>
-                    <input
-                        type = "text"
-                        name="garden_location"
-                        value={state.gardenLocation}
-                        onChange={updateState}
-                    />
-                </div>
-
-                
+            
                 <div className="form-group">
                     <label for="garden_description">Description:</label>
                     <input
                         type = "text"
-                        name="garden_description"
-                        value={state.gardenDescription}
+                        name="description"
+                        value={state.description}
                         onChange={updateState}
                     />
                 </div>
@@ -66,8 +85,8 @@ function AddGardenPage(){
                     <label for="garden_image">Image Link:</label>
                     <input
                         type = "text"
-                        name="garden_image"
-                        value={state.gardenImage}
+                        name="image_link"
+                        value={state.image_link}
                         onChange={updateState}
                     />
                 </div>
@@ -76,15 +95,15 @@ function AddGardenPage(){
                     <label for="garden-size">Garden Size: </label>
                     <input 
                         type="text"
-                        name="gardenLength"
-                        value={state.gardenLength}
+                        name="garden_len"
+                        value={state.garden_len}
                         onChange={updateState}
                     />
                     <inline>ft x </inline>
                     <input 
                         type="text"
-                        name="gardenWidth"
-                        value={state.gardenWidth}
+                        name="garden_wid"
+                        value={state.garden_wid}
                         onChange={updateState}
                     />
                     <inline>ft</inline>
@@ -94,13 +113,13 @@ function AddGardenPage(){
                     <label for="zipCode">Zip Code: </label>
                     <input 
                         type="text"
-                        name="region"
-                        value={state.region}
+                        name="location"
+                        value={state.location}
                         onChange={updateState}
                     />
                 </div>
 
-                <button className="next">Next</button>
+                <button type="submit" className="next">Next</button>
 
             </form>
         </div>
