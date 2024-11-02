@@ -3,6 +3,7 @@ import './App.css';
 
 import React from "react";
 import {Routes, Route} from 'react-router-dom'
+import { useAuth0 } from '@auth0/auth0-react';
 
 import Navbar from './components/Navbar';
 import LoginButton from './components/LoginButton';
@@ -14,32 +15,59 @@ import CropPage from './pages/CropPage';
 import SelectCropsPage from './pages/SelectCropsPage';
 import SoilGuidePage from './pages/SoilGuide';
 import AddGardenPage from './pages/AddGardenPage';
+import Profile from './components/Profile';
 
 function App() {
+
+  const { isLoading, error } = useAuth0();
+  const { isAuthenticated } = useAuth0();
+
   return (
     <div className="App">
       <Navbar />
+      {error && <p>Authentication Error</p>}
+      {!error && isLoading && <p>Loading...</p>}
+      {!error && !isLoading && (
+        <div>
+          <LoginButton />
+          <LogoutButton />
+          <Profile />
+        </div>
+      )}
+    
       <Routes>
         <Route path="/" element={
           <LandingPage />
         }/>
         <Route path="/home" element={
-          <HomePage />
+          isAuthenticated && (
+            <HomePage />
+          )
         }/>
         <Route path="/garden" element={
-          <GardenPage />
+          isAuthenticated && (
+            <GardenPage />
+          )
         }/>
         <Route path="/add-garden" element={
-          <AddGardenPage />
+          isAuthenticated && (
+            <AddGardenPage />
+          )
         }/>
         <Route path="/crop" element={
-          <CropPage />
+          isAuthenticated && (
+            <CropPage />
+          )
         }/>
         <Route path="/select-crops" element={
-          <SelectCropsPage />
+          isAuthenticated && (
+            <SelectCropsPage />
+          )
         }/>
         <Route path="/soil-guide" element={
-          <SoilGuidePage />
+          isAuthenticated && (
+            <SoilGuidePage />
+          )
         }/>
 
       </Routes>
