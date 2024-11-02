@@ -6,7 +6,7 @@ function AddGardenPage(){
     const [state, setState] = useState({
         gardenLength: '',
         gardenWidth: '',
-        region: ''
+        zipCode: ''
     });
 
     const updateState = event => setState({
@@ -20,20 +20,20 @@ function AddGardenPage(){
     }
 
     return(
-        <div>
-            <h1>Add Garden Page</h1>
+        <div className="container">
+            <h1>Add Garden</h1>
 
-            <form onSubmit={handleSubmit}>
+            <form className="form" onSubmit={handleSubmit}>
     
-                <div>
-                    <label for="garden-size">Garden Size</label>
+                <div className="form-group">
+                    <label for="garden-size">Garden Size: </label>
                     <input 
                         type="text"
                         name="gardenLength"
                         value={state.gardenLength}
                         onChange={updateState}
                     />
-                    <inline>ft</inline>
+                    <inline>ft x </inline>
                     <input 
                         type="text"
                         name="gardenWidth"
@@ -43,8 +43,8 @@ function AddGardenPage(){
                     <inline>ft</inline>
                 </div>
 
-                <div>
-                    <label for="region">Region</label>
+                <div className="form-group">
+                    <label for="zipCode">Zip Code: </label>
                     <input 
                         type="text"
                         name="region"
@@ -54,7 +54,7 @@ function AddGardenPage(){
 
                 </div>
 
-                <button>Submit</button>
+                <button className="next">Next</button>
 
             </form>
         </div>
