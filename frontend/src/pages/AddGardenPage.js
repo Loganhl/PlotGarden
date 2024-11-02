@@ -20,7 +20,7 @@ function AddGardenPage(){
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-    
+
         const gardenData = {
             garden_name: state.garden_name,
             location: state.location,
@@ -30,7 +30,7 @@ function AddGardenPage(){
             garden_wid: state.garden_wid,
             user_id: state.user_id
         };
-    
+
         try {
             const response = await fetch('http://localhost:5000/api/gardens', { 
                 method: 'POST',
@@ -39,20 +39,11 @@ function AddGardenPage(){
                 },
                 body: JSON.stringify(gardenData) 
             });
-    
+
             if (response.ok) {
                 const data = await response.json(); 
-                console.log('Garden added with ID:', data.garden_id);
-    
-                const presentPlantsResponse = await fetch(`http://localhost:5000/api/present-plants/${data.garden_id}`);
-                if (presentPlantsResponse.ok) {
-                    const presentPlantsData = await presentPlantsResponse.json();
-                    console.log('Present plants data:', presentPlantsData);
-                } else {
-                    const errorData = await presentPlantsResponse.json();
-                    console.error('Error fetching present plants:', errorData.error);
-                }
-    
+                console.log('Garden added with ID:', data.garden_id); 
+                
             } else {
                 const errorData = await response.json();
                 console.error('Error adding garden:', errorData.error);
@@ -61,7 +52,6 @@ function AddGardenPage(){
             console.error('Error:', error);
         }
     };
-    
 
     return(
         <div className="container">
