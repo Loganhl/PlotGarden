@@ -6,12 +6,11 @@ CREATE TABLE gardens (
     plot TEXT,
     image_link TEXT,
     plot_size INTEGER
-};
+);
 
 CREATE TABLE crops (
     crop_id INTEGER PRIMARY KEY AUTOINCREMENT,
     garden_id INTEGER NOT NULL,
     crop_name TEXT NOT NULL,
-    crop_id INTEGER NOT NULL,
     FOREIGN KEY (garden_id) REFERENCES gardens(garden_id)
 );
