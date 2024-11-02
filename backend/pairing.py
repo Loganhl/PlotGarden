@@ -68,7 +68,7 @@ def get_zip_match(user_zip):
     return recommended_zipcode_list
 
 # Print Testing
-garden_dimensions = [50, 52]
+garden_dimensions = [25, 52]
 size_code = calculate_size(garden_dimensions)
 recommended_crops = pair_size(size_code)
 print(f"Recommended crops for a garden of size {size_code}: {recommended_crops}")
