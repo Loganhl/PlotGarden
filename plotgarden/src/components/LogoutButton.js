@@ -3,10 +3,10 @@ import React from "react";
 
 const LogoutButton = () => {
 
-    const { logout, isAuthenticaed } = useAuth0();
+    const { logout, isAuthenticated } = useAuth0();
     return(
-        isAuthenticaed && (
-            <button onClick={() => logout}>
+        isAuthenticated && (
+            <button onClick={() => logout()}>
                 Sign Out
             </button>
         )
