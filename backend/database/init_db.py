@@ -5,7 +5,7 @@ import os
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
 #create paths for database and schema
-db_path = os.path.join(script_dir, "database.db")
+db_path = os.path.join(script_dir, "/database/database.db")
 schema_path = os.path.join(script_dir, "schema.sql")
 
 #connect to db file
