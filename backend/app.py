@@ -34,3 +34,18 @@ def get_crop(id):
         return jsonify({"error": "Plant not found"}), 404
     
     return jsonify(dict(crop))
+
+@app.route('/api/gardens', methods=["GET"])
+def get_gardens(user_id):
+    conn = get_db_connection()
+    gardens = conn.execute('SELECT * FROM gardens WHERE user_id = ?', (user_id,)).fetchall()
+    conn.close()
+    
+    return jsonify(dict(garden) for garden in gardens)
+
+
+@app.route('/api/gardens', methods=["POST"])
+def add_garden(user_id):
+    conn = get_db_connection()
+
+    

@@ -28,12 +28,6 @@ function App() {
       <Navbar />
       {error && <p>Authentication Error</p>}
       {!error && isLoading && <p>Loading...</p>}
-      {!error && !isLoading && (
-        <div>
-          <LoginButton />
-          <LogoutButton />
-        </div>
-      )}
     
       <Routes>
         <Route path="/" element={

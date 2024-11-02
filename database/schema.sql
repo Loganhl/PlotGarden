@@ -36,7 +36,8 @@ CREATE TABLE gardens (
     location TEXT,
     plot TEXT,
     image_link TEXT,
-    plot_size INTEGER
+    plot_size INTEGER,
+    user_id TEXT
 );
 
 CREATE TABLE crops (
@@ -44,6 +45,7 @@ CREATE TABLE crops (
     garden_id INTEGER NOT NULL,
     id INTEGER NOT NULL,
     crop_name TEXT NOT NULL,
+    quantity INTEGER NOT NULL,
     FOREIGN KEY (garden_id) REFERENCES gardens(garden_id),
     FOREIGN KEY (id) REFERENCES plants(id)
 );

@@ -1,19 +1,18 @@
 import asyncio
 from zip_api import *
 import sqlite3
+import re
 
-'''
-recommended_size_list = plants that are in the small category
-recommended_zipcode_list = plants that are in the recommended hardiness zone
-difficulty_easy_list = easy plants
-difficulty_medium_list = medium plants
-difficulty_hard_list = hard plants
-'''
-
-crop_categories = {
+crop_size_categories = {
     "small": [],
     "medium": [],
     "large": []
+}
+
+maintain_categories = {
+    "Low": [],
+    "Moderate": [],
+    "High": []
 }
 
 def calculate_size(garden_size):
@@ -28,16 +27,14 @@ def calculate_size(garden_size):
         return 3
 
 def pair_size(size_code):
-    recommended_size_crops = []
-    
+    # Return recommended crops based on the size code.
     if size_code == 1:
-        recommended_size_crops = crop_categories["small"]
+        return crop_size_categories["small"]
     elif size_code == 2:
-        recommended_size_crops = crop_categories["medium"]
+        return crop_size_categories["medium"]
     elif size_code == 3:
-        recommended_size_crops = crop_categories["large"]
-
-    return recommended_size_crops
+        return crop_size_categories["large"]
+    return []
 
 async def get_user_zone(zipcode):
     return await get_zone_number(zipcode)
@@ -58,21 +55,79 @@ def get_zip_match(user_zip):
     plants = cursor.fetchall()
 
     for plant_id, hardiness in plants:
-        # Split the hardiness range (e.g., "5 - 10") and check if user range is a match.
-        min_zone, max_zone = map(int, hardiness.split(' - '))
-        if min_zone <= user_zone <= max_zone:
-            recommended_zipcode_list.append(plant_id)
+        # Check if the hardiness value is not empty and matches the expected format.
+        if hardiness and ' - ' in hardiness:
+            try:
+                # Extract min and max zone values
+                min_zone, max_zone = map(float, hardiness.split(' - '))
+                
+                # Check if the user zone is within the range.
+                if min_zone <= user_zone <= max_zone:
+                    recommended_zipcode_list.append(plant_id)
+            except ValueError:
+                print(f"Skipping plant_id {plant_id} due to invalid hardiness value: {hardiness}")
     
     conn.close()
     
     return recommended_zipcode_list
 
+def categorize_plants():
+    conn = sqlite3.connect('database/database.db')
+    cursor = conn.cursor()
+    
+    # Query the database to retrieve dimensions and maintenance level.
+    cursor.execute("SELECT id, dimensions, maintenance FROM plants")
+    plants = cursor.fetchall()
+
+    for plant_id, dimensions, maintenance in plants:
+        # Categorize by size
+        match = re.match(r"(\d*\.?\d+)\s*-\s*(\d*\.?\d+)\s*feet", dimensions)
+        if match:
+            min_size = float(match.group(1))
+
+            # Categorize based on the minimum size.
+            if min_size <= 1:
+                crop_size_categories["small"].append(plant_id)
+            elif 1 < min_size <= 2:
+                crop_size_categories["medium"].append(plant_id)
+            else:
+                crop_size_categories["large"].append(plant_id)
+
+        # Categorize by maintenance level
+        if maintenance in maintain_categories:
+            maintain_categories[maintenance].append(plant_id)
+
+    conn.close()
+
+# Categorize plants by size and maintenance level at the start.
+categorize_plants()
+
 # Print Testing
-garden_dimensions = [50, 52]
+garden_dimensions = [25, 52]
+#print(type(garden_dimensions))
 size_code = calculate_size(garden_dimensions)
 recommended_crops = pair_size(size_code)
-print(f"Recommended crops for a garden of size {size_code}: {recommended_crops}")
 
+print(f"Recommended crops for a garden of size {size_code}: {recommended_crops}")
+print('-------------------------------------------------------------------------')
 user_zip = '65201'
 matching_plants = get_zip_match(user_zip)
 print(f"Plants matching the user's zone: {matching_plants}")
+print('-------------------------------------------------------------------------')
+
+print(f"Crop categories: {crop_size_categories}")
+print('-------------------------------------------------------------------------')
+print(f"Maintenance categories: {maintain_categories}")
+print('-------------------------------------------------------------------------')
+
+# Print all plants organized by size
+print("Plants categorized by size:")
+print('-------------------------------------------------------------------------')
+for size, plants in crop_size_categories.items():
+    print(f"{size.capitalize()} plants: {plants}")
+
+# Print maintenance categories
+print('-------------------------------------------------------------------------')
+print("Plants categorized by maintenance:")
+for level, plants in maintain_categories.items():
+    print(f"{level} maintenance: {plants}")

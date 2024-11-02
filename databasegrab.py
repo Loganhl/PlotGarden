@@ -2,12 +2,17 @@ import requests
 import sqlite3
 
 plant_ids = [
-    3013, 3024, 3025, 3234, 3387,
+    410, 663, 665, 667, 671, 682, 685, 691, 689, 688, 693,
+    694, 697, 731, 791, 862, 958, 978, 984, 1026, 1144, 1273,
+    1316, 1320, 1321, 1324, 1325, 1327, 1328, 1333, 1332, 1595,
+    1596, 1598, 1599, 1600, 1602, 1605, 1836, 1885, 2098, 2251,
+    2252, 2255, 2280, 2283, 2795, 3013, 3024, 3025, 3234, 3387,
     4302, 4463, 4626, 5021, 5022, 5023, 5024, 5498, 5533, 5535,
     5841, 6169, 6236, 6539, 6766, 6950, 6952, 6963, 7109, 7405,
     7409, 7833, 7843, 8039, 8065, 8062, 8489, 8546, 8658, 8759,
     10096
 ]
+
 
 # Database connection
 conn = sqlite3.connect('database/database.db')
@@ -19,7 +24,13 @@ def insert_plant_data(plant_data):
     if not isinstance(plant_data, dict):
         print("Invalid plant data:", plant_data)
         return
-    
+
+    # Default value for default_image
+    default_image = None
+    # Check if default_image key exists and is a dictionary
+    if isinstance(plant_data.get('default_image'), dict):
+        default_image = plant_data['default_image'].get('original_url', None)
+
     try:
         cursor.execute(""" 
             INSERT INTO plants (id, common_name, scientific_name, dimensions, cycle, watering, 
@@ -56,7 +67,7 @@ def insert_plant_data(plant_data):
                 plant_data.get('poisonous_to_pets', ''),
                 plant_data.get('care_level', ''),
                 plant_data.get('description', ''),
-                plant_data.get('default_image', {}).get('original_url', '')
+                default_image
             )
         )
     except Exception as e:
@@ -67,7 +78,7 @@ base_url = 'https://perenual.com/api/species/details/'
 
 # Loop through each plant ID and make the API request
 for plant_id in plant_ids:
-    url = f"{base_url}{plant_id}?key=sk-2A276725d1fa3322f7505"
+    url = f"{base_url}{plant_id}?key=sk-KlYZ67259951181c97502"
     response = requests.get(url)
     
     if response.status_code == 200:
