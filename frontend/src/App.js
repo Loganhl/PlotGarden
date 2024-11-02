@@ -7,8 +7,6 @@ import { useAuth0 } from '@auth0/auth0-react';
 
 
 import Navbar from './components/Navbar';
-import LoginButton from './components/LoginButton';
-import LogoutButton from './components/LogoutButton';
 import LandingPage from './pages/LandingPage';
 import HomePage from './pages/HomePage';
 import GardenPage from './pages/GardenPage';
@@ -17,6 +15,9 @@ import SelectCropsPage from './pages/SelectCropsPage';
 import GuidePage from './pages/GuidePage';
 import AddGardenPage from './pages/AddGardenPage';
 import AllCropsPage from './pages/AllCropsPage'
+import GuidesPage from './pages/GuidesPage';
+import AddGardenPage from './pages/AddGardenPage';
+import CropList from './pages/CropList';
 
 function App() {
 
@@ -48,10 +49,11 @@ function App() {
             <AddGardenPage />
           )
         }/>
-        <Route path="/crop/:id" element={
-          isAuthenticated && (
+        <Route path="/crops" element={
+          <CropList />
+        }/>
+        <Route path="/crop/:id" element={ 
             <CropPage />
-          )
         }/>
         <Route path="/select-crops" element={
           isAuthenticated && (
@@ -67,8 +69,7 @@ function App() {
           isAuthenticated && (
             <GuidePage />
           )
-        }/>
-
+          }/>
       </Routes>
 
     </div>
