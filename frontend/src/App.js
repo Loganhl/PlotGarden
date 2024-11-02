@@ -5,6 +5,7 @@ import React from "react";
 import {Routes, Route} from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react';
 
+
 import Navbar from './components/Navbar';
 import LoginButton from './components/LoginButton';
 import LogoutButton from './components/LogoutButton';
@@ -31,7 +32,6 @@ function App() {
         <div>
           <LoginButton />
           <LogoutButton />
-          <Profile />
         </div>
       )}
     
