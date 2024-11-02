@@ -77,6 +77,10 @@ def add_garden():
 
 @app.route('/api/present-plants/<int:garden_id>', methods=["GET"])
 def get_present_plants(garden_id):
-    # Call your present_plant_ids function here to retrieve present plant IDs
+    print(f"Received request for present plants with garden ID: {garden_id}")  # Pritn Testing
     plants_data = present_plant_ids(garden_id)
-    return jsonify(plants_data)
+    print(f"Plants data retrieved: {plants_data}") 
+    if plants_data:
+        return jsonify(plants_data)
+    else:
+        return jsonify({"message": "No plants found for this garden ID."}), 404
