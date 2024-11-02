@@ -104,14 +104,30 @@ categorize_plants()
 
 # Print Testing
 garden_dimensions = [25, 52]
-print(type(garden_dimensions))
+#print(type(garden_dimensions))
 size_code = calculate_size(garden_dimensions)
 recommended_crops = pair_size(size_code)
-print(f"Recommended crops for a garden of size {size_code}: {recommended_crops}")
 
+print(f"Recommended crops for a garden of size {size_code}: {recommended_crops}")
+print('-------------------------------------------------------------------------')
 user_zip = '65201'
 matching_plants = get_zip_match(user_zip)
 print(f"Plants matching the user's zone: {matching_plants}")
+print('-------------------------------------------------------------------------')
 
 print(f"Crop categories: {crop_size_categories}")
+print('-------------------------------------------------------------------------')
 print(f"Maintenance categories: {maintain_categories}")
+print('-------------------------------------------------------------------------')
+
+# Print all plants organized by size
+print("Plants categorized by size:")
+print('-------------------------------------------------------------------------')
+for size, plants in crop_size_categories.items():
+    print(f"{size.capitalize()} plants: {plants}")
+
+# Print maintenance categories
+print('-------------------------------------------------------------------------')
+print("Plants categorized by maintenance:")
+for level, plants in maintain_categories.items():
+    print(f"{level} maintenance: {plants}")
