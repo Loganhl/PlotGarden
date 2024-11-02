@@ -36,7 +36,8 @@ CREATE TABLE gardens (
     location TEXT,
     plot TEXT,
     image_link TEXT,
-    plot_size INTEGER
+    plot_size INTEGER,
+    user_id TEXT
 );
 
 CREATE TABLE crops (
