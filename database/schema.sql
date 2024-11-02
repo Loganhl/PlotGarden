@@ -1,20 +1,19 @@
 CREATE TABLE plants (
-    plant_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id INTEGER PRIMARY KEY,
     common_name TEXT,
     scientific_name TEXT,
     dimensions TEXT,
     cycle TEXT,
     watering TEXT,
-    water_period TEXT,
+    watering_period TEXT,
     watering_general_benchmark TEXT,
     sunlight TEXT,
     hardiness INTEGER,
     attracts TEXT,
-    propogation TEXT,
+    propagation TEXT,
     flowers BOOLEAN,
     flowering_season TEXT,
     soil TEXT,
-    pest_susceptability TEXT,
     fruits BOOLEAN,
     edible_fruit BOOLEAN,
     harvest_method TEXT,
@@ -43,8 +42,8 @@ CREATE TABLE gardens (
 CREATE TABLE crops (
     crop_id INTEGER PRIMARY KEY AUTOINCREMENT,
     garden_id INTEGER NOT NULL,
-    plant_id INTEGER NOT NULL,
+    id INTEGER NOT NULL,
     crop_name TEXT NOT NULL,
     FOREIGN KEY (garden_id) REFERENCES gardens(garden_id),
-    FOREIGN KEY (plant_id) REFERENCES plants(plant_id)
+    FOREIGN KEY (id) REFERENCES plants(id)
 );
