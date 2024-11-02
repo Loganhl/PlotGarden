@@ -89,8 +89,14 @@ function SelectCropsPage(){
                 <div>
                      <img src={circle1} height={10} width={10} />
                     <inline>Low Maintenance Level</inline>
-                     
-
+                </div>
+                <div>
+                     <img src={circle2} height={10} width={10} />
+                    <inline>Medium Maintenance Level</inline>
+                </div>
+                <div>
+                     <img src={circle3} height={10} width={10} />
+                    <inline>High Maintenance Level</inline>
                 </div>
             </div>
         </div>
