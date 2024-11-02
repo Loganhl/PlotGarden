@@ -3,10 +3,16 @@ from zip_api import *
 import sqlite3
 import re
 
-crop_categories = {
+crop_size_categories = {
     "small": [],
     "medium": [],
     "large": []
+}
+
+maintain_categories = {
+    "Low": [],
+    "Moderate": [],
+    "High": []
 }
 
 def calculate_size(garden_size):
@@ -23,11 +29,11 @@ def calculate_size(garden_size):
 def pair_size(size_code):
     # Return recommended crops based on the size code.
     if size_code == 1:
-        return crop_categories["small"]
+        return crop_size_categories["small"]
     elif size_code == 2:
-        return crop_categories["medium"]
+        return crop_size_categories["medium"]
     elif size_code == 3:
-        return crop_categories["large"]
+        return crop_size_categories["large"]
     return []
 
 async def get_user_zone(zipcode):
@@ -65,31 +71,36 @@ def get_zip_match(user_zip):
     
     return recommended_zipcode_list
 
-def categorize_plants_by_size():
+def categorize_plants():
     conn = sqlite3.connect('database/database.db')
     cursor = conn.cursor()
     
-    # Query the database to retrieve dimensions.
-    cursor.execute("SELECT id, dimensions FROM plants")
+    # Query the database to retrieve dimensions and maintenance level.
+    cursor.execute("SELECT id, dimensions, maintenance FROM plants")
     plants = cursor.fetchall()
 
-    for plant_id, dimensions in plants:
+    for plant_id, dimensions, maintenance in plants:
+        # Categorize by size
         match = re.match(r"(\d*\.?\d+)\s*-\s*(\d*\.?\d+)\s*feet", dimensions)
         if match:
             min_size = float(match.group(1))
 
             # Categorize based on the minimum size.
             if min_size <= 1:
-                crop_categories["small"].append(plant_id)
+                crop_size_categories["small"].append(plant_id)
             elif 1 < min_size <= 2:
-                crop_categories["medium"].append(plant_id)
+                crop_size_categories["medium"].append(plant_id)
             else:
-                crop_categories["large"].append(plant_id)
+                crop_size_categories["large"].append(plant_id)
+
+        # Categorize by maintenance level
+        if maintenance in maintain_categories:
+            maintain_categories[maintenance].append(plant_id)
 
     conn.close()
 
-# Categorize plants by size at the start.
-categorize_plants_by_size()
+# Categorize plants by size and maintenance level at the start.
+categorize_plants()
 
 # Print Testing
 garden_dimensions = [25, 52]
@@ -101,4 +112,5 @@ user_zip = '65201'
 matching_plants = get_zip_match(user_zip)
 print(f"Plants matching the user's zone: {matching_plants}")
 
-print(f"Crop categories: {crop_categories}")
+print(f"Crop categories: {crop_size_categories}")
+print(f"Maintenance categories: {maintain_categories}")
