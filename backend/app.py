@@ -5,6 +5,7 @@ from pairing import present_plant_ids
 from dotenv import load_dotenv
 import os
 from create_cluster import create_garden_plot
+
 load_dotenv()
 
 app = Flask(__name__)
@@ -22,7 +23,6 @@ def get_db_connection():
 def convert_user_id(user_id):
     return user_id[-9:]
 
-
 @app.route('/api/plants', methods=['GET'])
 def get_plants():
     conn = get_db_connection()
@@ -39,7 +39,6 @@ def get_present_plants(garden_id):
         plants_data = present_plant_ids(garden_id)
 
         if plants_data:
-            #print(f"Plants data retrieved: {plants_data}") 
             return jsonify(plants_data)
         else:
             print("No plants found for this garden ID.")
@@ -47,7 +46,7 @@ def get_present_plants(garden_id):
             
     except Exception as e:
         print(f"An error occurred: {e}")  
-        return jsonify({"error": str(e)}), 500 #server error response
+        return jsonify({"error": str(e)}), 500  # server error response
     finally:
         conn.close()
     
@@ -65,9 +64,7 @@ def get_crop(id):
 @app.route('/api/crop', methods=["POST"])
 def add_crops():
     conn = get_db_connection()
-
     data = request.get_json()
-
     print(data)
 
     garden_id = data.get('garden_id')
@@ -78,26 +75,23 @@ def add_crops():
         return jsonify({"error": "Missing required fields"}), 400
 
     insert_query = '''
-        INSERT INTO crops (garden_id,id,crop_name)
-        VALUES (?,?,?)
+        INSERT INTO crops (garden_id, id, crop_name)
+        VALUES (?, ?, ?)
     '''
 
-    params = (garden_id,id,crop_name)
+    params = (garden_id, id, crop_name)
 
     try:
         conn.execute(insert_query, params)
         conn.commit()
-        #create_garden_plot(garden_id)
         return jsonify({"garden_id": garden_id}), 201 
     except Exception as e:
         return jsonify({"error": str(e)}), 400
-
     finally:
         conn.close()
 
 @app.route('/api/gardens/<int:id>', methods=["GET"])
 def get_gardens(id):
-
     conn = get_db_connection()
     gardens = conn.execute('SELECT * FROM gardens WHERE user_id = ?', (id,)).fetchall()
     print(gardens)
@@ -109,21 +103,27 @@ def get_gardens(id):
 def get_garden(id):
     conn = get_db_connection()
     garden = conn.execute('SELECT * FROM gardens WHERE garden_id = ?', (id,)).fetchone()
-    conn.close()
-
+    
     if garden is None:
+        conn.close()
         return jsonify({"error": "Garden not found"}), 404
     
+    # Call the create_garden_plot function after retrieving garden details
+    try:
+        create_garden_plot(id)  # Use the garden ID directly
+    except Exception as e:
+        print(f"Error creating garden plot for garden ID {id}: {e}")
+
+    conn.close()
     return jsonify(dict(garden))
 
 @app.route('/api/crops/<int:id>', methods=["GET"])
 def get_crops(id):
     conn = get_db_connection()
-    crops = conn.execute('SELECT * FROM crops WHERE garden_id = ?', (id, )).fetchall()
+    crops = conn.execute('SELECT * FROM crops WHERE garden_id = ?', (id,)).fetchall()
     conn.close()
 
     return jsonify([dict(crop) for crop in crops])
-
 
 @app.route('/api/gardens', methods=["POST"])
 def add_garden():
@@ -143,7 +143,8 @@ def add_garden():
 
     insert_query = '''
         INSERT INTO gardens (garden_name, location, description, image_link, garden_len, garden_wid, user_id)
-        VALUES (?, ?, ?, ?, ?, ?, ?)'''
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    '''
     
     params = (garden_name, location, description, image_link, garden_len, garden_width, new_id)
 
@@ -154,6 +155,5 @@ def add_garden():
         return jsonify({"garden_id": garden_id}), 201 
     except Exception as e:
         return jsonify({"error": str(e)}), 400
-
     finally:
         conn.close()
