@@ -12,11 +12,9 @@ import GardenDetailPage from './pages/GardenDetailPage';
 import GardensPage from './pages/GardensPage';
 import CropPage from './pages/CropPage';
 import SelectCropsPage from './pages/SelectCropsPage';
-import GuidePage from './pages/GuidePage';
-import AddGardenPage from './pages/AddGardenPage';
-import AllCropsPage from './pages/AllCropsPage'
 import GuidesPage from './pages/GuidesPage';
 import AddGardenPage from './pages/AddGardenPage';
+import AllCropsPage from './pages/AllCropsPage'
 import CropList from './pages/CropList';
 
 function App() {
@@ -67,7 +65,7 @@ function App() {
         }/>
         <Route path="/guide" element={
           isAuthenticated && (
-            <GuidePage />
+            <GuidesPage />
           )
           }/>
       </Routes>

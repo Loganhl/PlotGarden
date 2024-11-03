@@ -41,7 +41,7 @@ function Navbar() {
                 <Link to="/" onClick={closeNav}>About</Link>
                 <Link to="/gardens" onClick={closeNav}>Gardens</Link>
                 <Link to="/crops" onClick={closeNav}>Plants</Link>
-                <Link to="/guides" onClick={closeNav}>Guides</Link>
+                <Link to="/guide" onClick={closeNav}>Guides</Link>
                 <LoginButton />
                 <LogoutButton />
             </div>
