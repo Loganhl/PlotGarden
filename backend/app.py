@@ -36,12 +36,17 @@ def get_crop(id):
     return jsonify(dict(crop))
 
 @app.route('/api/gardens', methods=["GET"])
-def get_gardens(user_id):
+def get_gardens():
+    user_id = request.args.get('userId')
+
+    if not user_id:
+        return jsonify({"error": "user_id is required"}), 400
+
     conn = get_db_connection()
     gardens = conn.execute('SELECT * FROM gardens WHERE user_id = ?', (user_id,)).fetchall()
     conn.close()
 
-    return jsonify(dict(garden) for garden in gardens)
+    return jsonify([dict(garden) for garden in gardens])
 
 
 @app.route('/api/gardens', methods=["POST"])
