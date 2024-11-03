@@ -77,11 +77,12 @@ def create_garden_plot(garden_id):
     # Fill the garden.
     fill_garden()
 
-    # Function to plot the graden.
+    # Function to plot the garden.
     def plot_garden(garden_plot, garden_id):
         fig, ax = plt.subplots(figsize=(10, 5))
         ax.set_xlim(0, garden_plot.shape[1])
         ax.set_ylim(0, garden_plot.shape[0])
+        ax.set_facecolor('black')  # Set background to black
 
         for r in range(garden_plot.shape[0]):
             for c in range(garden_plot.shape[1]):
@@ -90,16 +91,19 @@ def create_garden_plot(garden_id):
                     color = crop_colors[crop] 
                     ax.add_patch(plt.Rectangle((c, garden_plot.shape[0] - r - 1), 1, 1, facecolor=color, edgecolor='none'))
                     # Capitalize the crop name
-                    ax.text(c + 0.5, garden_plot.shape[0] - r - 0.5, crop.capitalize(), ha='center', va='center', fontsize=8, color='black')
+                    ax.text(c + 0.5, garden_plot.shape[0] - r - 0.5, crop.capitalize(), ha='center', va='center', fontsize=8, color='white')  # Change text color to white
 
         ax.set_xticks(np.arange(0, garden_plot.shape[1] + 1, 1))
         ax.set_yticks(np.arange(0, garden_plot.shape[0] + 1, 1))
-        ax.grid(True)
+        ax.grid(True, color='white')  # Change grid color to white
+
+        # Set the tick labels to white
+        ax.tick_params(axis='both', colors='white')
 
         plt.gca().set_aspect('equal', adjustable='box')
 
         # Create directory if it does not exist
-        output_dir = 'src/frontend/plotpng'
+        output_dir = 'frontend/src/plotpng'
         os.makedirs(output_dir, exist_ok=True)
 
         plt.savefig(os.path.join(output_dir, f'{garden_id}.png'), transparent=True, bbox_inches='tight', pad_inches=0)
