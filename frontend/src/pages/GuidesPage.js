@@ -16,19 +16,23 @@ function showSlides(n) {
     let dots = document.getElementsByClassName("dot");
     if (n > slides.length) {slideIndex = 1}
     if (n < 1) {slideIndex = slides.length}
+    if (slideIndex < 1 || slideIndex > slides.length) {
+        console.error('Invalid slide index:', slideIndex);
+        return;
+    }
 
-    for (i=0; i < slides.length; i++) {
+    for (i = 0; i < slides.length; i++) {
         slides[i].style.display = "none";
     }
 
     for (i = 0; i < dots.length; i++) {
         dots[i].className = dots[i].className.replace(" active", "");
-      }
+    }
       slides[slideIndex-1].style.display = "block";
       dots[slideIndex-1].className += " active";
 }
 
-function SoilGuidePage(){
+function GuidesPage(){
     return(
         <div className="guide-page">
             <h1>Plant Guide</h1>
@@ -97,7 +101,7 @@ function SoilGuidePage(){
                 <a className="next" onClick={() => plusSlides(1)}>&#10095;</a>
             </div>
             <br></br>
-            <div style={{textAlign: 'center'}}>
+            <div>
                 <span className="dot" onClick={() => currentSlide(1)}></span>
                 <span className="dot" onClick={() => currentSlide(2)}></span>
                 <span className="dot" onClick={() => currentSlide(3)}></span>
@@ -106,4 +110,4 @@ function SoilGuidePage(){
     )
 }
 
-export default SoilGuidePage;
+export default GuidesPage;

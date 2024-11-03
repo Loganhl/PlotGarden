@@ -8,8 +8,8 @@ import { useAuth0 } from '@auth0/auth0-react';
 
 import Navbar from './components/Navbar';
 import LandingPage from './pages/LandingPage';
-import HomePage from './pages/HomePage';
-import GardenPage from './pages/GardenPage';
+import GardenDetailPage from './pages/GardenDetailPage';
+import GardensPage from './pages/GardensPage';
 import CropPage from './pages/CropPage';
 import SelectCropsPage from './pages/SelectCropsPage';
 import GuidesPage from './pages/GuidesPage';
@@ -31,14 +31,14 @@ function App() {
         <Route path="/" element={
           <LandingPage />
         }/>
-        <Route path="/home" element={
+        <Route path="/gardens" element={
           isAuthenticated && (
-            <HomePage />
+            <GardensPage />
           )
         }/>
-        <Route path="/garden" element={
+        <Route path="/garden/:id" element={
           isAuthenticated && (
-            <GardenPage />
+            <GardenDetailPage />
           )
         }/>
         <Route path="/add-garden" element={

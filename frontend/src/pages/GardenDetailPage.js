@@ -1,6 +1,6 @@
 
 
-function GardenPage(){
+function GardenDetailPage(){
     return(
         <div>
             <h1>Garden Name</h1>
@@ -26,4 +26,4 @@ function GardenPage(){
     )
 }
 
-export default GardenPage;
+export default GardenDetailPage;

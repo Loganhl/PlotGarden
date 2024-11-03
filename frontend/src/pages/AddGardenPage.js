@@ -13,13 +13,34 @@ function AddGardenPage(){
         user_id: user ? user.sub : ''
     });
 
+    const [errors, setErrors] = useState({});
+
     const updateState = event => setState({
         ...state,
         [event.target.name]: event.target.value
     });
 
+    const validateForm = () => {
+        const newErrors = {};
+
+        if (!state.garden_name) {
+            newErrors.garden_name = "Garden name is required";
+        }
+        if (!state.location) {
+            newErrors.location = "Location is required";
+        }
+        if (!state.garden_len || !state.garden_wid) {
+            newErrors.garden_size = "Garden size (length and width) is required";
+        }
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
+        if (!validateForm()) {
+            return;
+        }
 
         const gardenData = {
             garden_name: state.garden_name,
@@ -55,9 +76,9 @@ function AddGardenPage(){
 
     return(
         <div className="container">
-            <h1>Add Garden</h1>
 
             <form className="form" onSubmit={handleSubmit}>
+                <h1>Add Garden</h1>
 
                 <div className="form-group">
                     <label for="garden_name">Name:</label>
@@ -67,16 +88,18 @@ function AddGardenPage(){
                         value={state.garden_name}
                         onChange={updateState}
                     />
+                    {errors.garden_name && <div className="error">{errors.garden_name}</div>}
                 </div>
 
             
                 <div className="form-group">
                     <label for="garden_description">Description:</label>
-                    <input
-                        type = "text"
+                    <textarea
                         name="description"
                         value={state.description}
                         onChange={updateState}
+                        rows="5"
+                        cols="40"
                     />
                 </div>
 
@@ -93,23 +116,26 @@ function AddGardenPage(){
     
                 <div className="form-group">
                     <label for="garden-size">Garden Size: </label>
+                    <div className="garden-size-inputs">
                     <input 
                         type="text"
                         name="garden_len"
                         value={state.garden_len}
                         onChange={updateState}
                     />
-                    <inline>ft x </inline>
+                    <span>ft x</span>
                     <input 
                         type="text"
                         name="garden_wid"
                         value={state.garden_wid}
                         onChange={updateState}
                     />
-                    <inline>ft</inline>
+                    <span>ft</span>
+                </div>
+                    {errors.garden_size && <div className="error">{errors.garden_size}</div>}
                 </div>
 
-                <div className="form-group">
+                <div className="form-group" id="location">
                     <label for="zipCode">Zip Code: </label>
                     <input 
                         type="text"
@@ -117,9 +143,10 @@ function AddGardenPage(){
                         value={state.location}
                         onChange={updateState}
                     />
+                    {errors.location && <div className="error">{errors.location}</div>}
                 </div>
 
-                <button type="submit" className="next">Next</button>
+                <button type="submit" className="submit">Next</button>
 
             </form>
         </div>

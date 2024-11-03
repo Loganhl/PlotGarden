@@ -39,7 +39,7 @@ function Navbar() {
             <div id="sidenav" className="sidenav" ref={sidenavRef}>
                 <button class="closebtn" onClick={closeNav}>&times;</button>
                 <Link to="/" onClick={closeNav}>About</Link>
-                <Link to="/garden" onClick={closeNav}>Gardens</Link>
+                <Link to="/gardens" onClick={closeNav}>Gardens</Link>
                 <Link to="/crops" onClick={closeNav}>Plants</Link>
                 <Link to="/guides" onClick={closeNav}>Guides</Link>
                 <LoginButton />
