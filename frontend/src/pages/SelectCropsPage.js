@@ -70,66 +70,70 @@ function SelectCropsPage(){
         <div>
             <h1>Select Crops</h1>
 
-            <ul>
-                {plants.map(plant => (
-                    <li key={plant.id}>
-                        <label>
-                            <input 
-                                type="checkbox" 
-                                value={plant.id}
-                                onChange={(event) => handleCheckboxChange(event)}
-                            ></input>
-                            <Link to={`/crop/${plant.id}`}>{plant.common_name}</Link>
-                        </label>
-                        
-                        {matching_plants.includes(parseInt(`${plant.id}`)) && 
-                            <img src={star} height={10} width={10} />
-                        }
-                        
-                        {recommended_crops.includes(parseInt(`${plant.id}`)) && 
-                            <img src={square} height={10} width={10} />
-                        }
+            <div className="select-crop-page">
+                <ul className='select-crop-list'>
+                    {plants.map(plant => (
+                        <li key={plant.id} className='crop-selection-item'>
+                            <label>
+                                <input 
+                                    type="checkbox" 
+                                    value={plant.id}
+                                    onChange={(event) => handleCheckboxChange(event)}
+                                ></input>
+                                <Link className="crop-selection-link" to={`/crop/${plant.id}`}>{plant.common_name}</Link>
+                            </label>
+                            
+                            <div>
+                                {matching_plants.includes(parseInt(`${plant.id}`)) && 
+                                    <img className="symbol" src={star}/>
+                                }
+                                
+                                {recommended_crops.includes(parseInt(`${plant.id}`)) && 
+                                    <img className="symbol"  src={square}/>
+                                }
 
-                        {maintain_categories.Low.includes(parseInt(`${plant.id}`)) && 
-                            <img src={circle1} height={10} width={10} />
-                        }
+                                {maintain_categories.Low.includes(parseInt(`${plant.id}`)) && 
+                                    <img className="symbol"  src={circle1}/>
+                                }
 
-                        {maintain_categories.Moderate.includes(parseInt(`${plant.id}`)) && 
-                            <img src={circle2} height={10} width={10} />
-                        }
+                                {maintain_categories.Moderate.includes(parseInt(`${plant.id}`)) && 
+                                    <img className="symbol"  src={circle2}/>
+                                }
 
-                        {maintain_categories.High.includes(parseInt(`${plant.id}`)) && 
-                            <img src={circle3} height={10} width={10} />
-                        }  
+                                {maintain_categories.High.includes(parseInt(`${plant.id}`)) && 
+                                    <img className="symbol"  src={circle3}/>
+                                }  
+                            </div>
+                        </li>
+                    ))
+                    }
+                </ul>
 
-                    </li>
-                ))
-                }
-            </ul>
-
-            <div>
-                Symbol Legend
-            
-                <div>
-                    <img src={square} height={10} width={10} />
-                    <span>Matches Garden Size</span>
+                <div className='symbol-legend'>
+                    <h2>Symbol Legend</h2>
+                
+                    <div>
+                        <img className="symbol"  src={square}/>
+                        <span>Matches Garden Size</span>
+                    </div>
+                    <div>
+                        <img className="symbol" src={star}/>
+                        <span>Matches Region</span>
+                    </div>
+                    <div>
+                        <img className="symbol"  src={circle1}/>
+                        <span>Low Maintenance Level</span>
+                    </div>
+                    <div>
+                        <img className="symbol"  src={circle2}/>
+                        <span>Medium Maintenance Level</span>
+                    </div>
+                    <div>
+                        <img className="symbol"  src={circle3}/>
+                        <span>High Maintenance Level</span>
+                    </div>
                 </div>
-                <div>
-                     <img src={star} height={10} width={10} />
-                    <span>Matches Region</span>
-                </div>
-                <div>
-                     <img src={circle1} height={10} width={10} />
-                    <span>Low Maintenance Level</span>
-                </div>
-                <div>
-                     <img src={circle2} height={10} width={10} />
-                    <span>Medium Maintenance Level</span>
-                </div>
-                <div>
-                     <img src={circle3} height={10} width={10} />
-                    <span>High Maintenance Level</span>
-                </div>
+                <button>Add Garden</button>
             </div>
         </div>
     )
