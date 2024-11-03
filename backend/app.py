@@ -60,6 +60,33 @@ def get_crop(id):
     
     return jsonify(dict(crop))
 
+@app.route('/api/crop', methods=["POST"])
+def add_crops():
+    conn = get_db_connection()
+
+    data = request.get_json()
+
+    garden_id = data.get('garden_id')
+    crop_id = data.get('crop_id')
+    crop_name = data.get('crop_name')
+
+    insert_query = '''
+        INSERT INTO crops (garden_id,crop_id,crop_name)
+        VALUES (?,?,?)
+    '''
+
+    params = (garden_id,crop_id,crop_name)
+
+    try:
+        conn.execute(insert_query, params)
+        conn.commit()
+        return jsonify({"garden_id": garden_id}), 201 
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+
+    finally:
+        conn.close()
+
 @app.route('/api/gardens/<int:id>', methods=["GET"])
 def get_gardens(id):
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { useParams } from 'react-router-dom';
 import square from '../assets/square.png';
@@ -12,11 +12,10 @@ import circle3 from '../assets/circle-3.png'
 
 function SelectCropsPage(){
     const { id } = useParams();
+    const navigate = useNavigate()
 
     const [plants, setPlants] = useState([]);
-
     const [specifics, setSpecifics] = useState([]);
-
     const [selectedCrops, setSelectedCrops] = useState([]);
 
     const getPlants = () => {
@@ -33,30 +32,48 @@ function SelectCropsPage(){
         axios.get(`http://127.0.0.1:5000/api/present-plants/${id}`)
         .then(response => {
             setSpecifics(response.data);
-    })
-    .catch(error => {
-        console.error("There was an error fetching the specifics!", error)
-    });
+        })
+        .catch(error => {
+            console.error("There was an error fetching the specifics!", error)
+        });
     }
 
-    const handleCheckboxChange = (event) =>{
+    const handleCheckboxChange = (event, commonName) =>{
         const checkedId = event.target.value;
-        console.log(checkedId);
-        console.log(event.target.checked);
-
 
         setSelectedCrops(prevSelectedCrops => {
             if (event.target.checked) {
                 // Add the new crop
-                return [...prevSelectedCrops, checkedId];
+                return [...prevSelectedCrops, { id: checkedId, name: commonName }];
             } else {
                 // Remove the crop
                 return prevSelectedCrops.filter(id => id !== checkedId);
             }
         });
-    
-        console.log(selectedCrops);
     }
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        for(let i = 0; i < selectedCrops.length; i++){
+            console.log(selectedCrops[i]);
+
+            const cropData = {
+                garden_id: {id}.id,
+                crop_id: selectedCrops[i].id,
+                crop_name: selectedCrops[i].name
+            }
+
+            console.log(cropData);
+        
+            axios.post(`http://localhost:5000/api/crop`, cropData)
+                .then(res => {
+                    console.log(res.data);
+                    navigate('/gardens');
+                })
+                .catch(err => console.log(err))
+        }
+    };
 
     useEffect(() => {
         getPlants();
@@ -81,7 +98,7 @@ function SelectCropsPage(){
                                 <input 
                                     type="checkbox" 
                                     value={plant.id}
-                                    onChange={(event) => handleCheckboxChange(event)}
+                                    onChange={(event) => handleCheckboxChange(event, plant.common_name)}
                                 ></input>
                                 <Link className="crop-selection-link" to={`/crop/${plant.id}`}>{plant.common_name}</Link>
                             </label>
@@ -137,7 +154,7 @@ function SelectCropsPage(){
                             <span>High Maintenance Level</span>
                         </div>
                     </div>
-                    <button className="submit">Add Garden</button>
+                    <button className="submit" onClick={handleSubmit}>Add Garden</button>
                 </div>
             </div>
         </div>
