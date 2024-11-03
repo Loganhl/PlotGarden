@@ -12,20 +12,9 @@ import circle3 from '../assets/circle-3.png'
 function SelectCropsPage(){
     const [plants, setPlants] = useState([]);
 
-    //Star
-    let matching_plants = [410, 663, 665, 667, 671, 682, 685, 688, 689, 691, 693, 694, 697, 862, 958, 978, 984, 1026, 1144, 1273, 1316, 1320, 1321, 1324, 1325, 1327, 1328, 1332, 1333, 1605, 1836, 1885, 2098, 2251, 2252, 2255, 2795, 3013, 3062, 8065];
+    const [specifics, setSpecifics] = useState([]);
 
-    //Square
-    let recommended_crops = [693, 862, 978, 984, 1144, 1596, 1598, 1599, 1602, 1836, 2098, 2280, 2795, 3234, 3387, 5535, 6539, 6963, 7109, 7405];
-
-    //Maintenance Level
-    let maintain_categories = {
-        'Low': [682, 685, 688, 689, 691, 693, 694, 731, 958, 1026, 1273, 1316, 1320, 1321, 1324, 1325, 1327, 1328, 1595, 1598, 1602, 1605, 1836, 2098, 2283, 3387, 4302, 5498, 5533, 5535, 6236, 7833, 7843, 8489], 
-        'Moderate': [410, 663, 665, 667, 671, 697, 862, 978, 984, 1144, 1332, 1333, 1596, 1599, 1600, 1885, 2251, 2252, 2280, 2795, 3234, 4463, 4626, 5021, 5022, 5023, 5024, 5841, 6169, 6539, 6766, 6950, 6952, 6963, 7109, 7405, 7409, 8039, 8062, 8065, 8658], 
-        'High': [791, 2255, 3013, 3024, 3025, 8759]
-    };
-
-    useEffect(() => {
+    const getPlants = () => {
         axios.get('http://127.0.0.1:5000/api/plants')
             .then(response => {
                 setPlants(response.data);
@@ -33,11 +22,30 @@ function SelectCropsPage(){
         .catch(error => {
             console.error("There was an error fetching the garden data!", error)
         });
+    }
+
+    const getSpecifics = () =>{
+        axios.get('http://127.0.0.1:5000/api/present-plants/1')
+        .then(response => {
+            setSpecifics(response.data);
+    })
+    .catch(error => {
+        console.error("There was an error fetching the specifics!", error)
+    });
+    }
+
+
+    useEffect(() => {
+        getPlants();
+        getSpecifics();
     }, []);
 
-    console.log(plants);
-    
-
+    //Star
+    let matching_plants = specifics.matching_plants || [];
+    //Square
+    let recommended_crops = specifics.recommended_crops || [];
+    //Maintenance Level
+    let maintain_categories = specifics.maintain_categories || { Low: [], Moderate: [], High: [] };
     return(
         <div>
             <h1>Select Crops</h1>
@@ -58,17 +66,17 @@ function SelectCropsPage(){
                             <img src={square} height={10} width={10} />
                         }
 
-                        {maintain_categories['Low'].includes(parseInt(`${plant.id}`)) && 
+                        {maintain_categories.Low.includes(parseInt(`${plant.id}`)) && 
                             <img src={circle1} height={10} width={10} />
                         }
 
-                        {maintain_categories['Moderate'].includes(parseInt(`${plant.id}`)) && 
+                        {maintain_categories.Moderate.includes(parseInt(`${plant.id}`)) && 
                             <img src={circle2} height={10} width={10} />
                         }
 
-                        {maintain_categories['High'].includes(parseInt(`${plant.id}`)) && 
+                        {maintain_categories.High.includes(parseInt(`${plant.id}`)) && 
                             <img src={circle3} height={10} width={10} />
-                        }
+                        }  
 
                     </li>
                 ))
@@ -80,23 +88,23 @@ function SelectCropsPage(){
             
                 <div>
                     <img src={square} height={10} width={10} />
-                    <inline>Matches Garden Size</inline>
+                    <span>Matches Garden Size</span>
                 </div>
                 <div>
                      <img src={star} height={10} width={10} />
-                    <inline>Matches Region</inline>
+                    <span>Matches Region</span>
                 </div>
                 <div>
                      <img src={circle1} height={10} width={10} />
-                    <inline>Low Maintenance Level</inline>
+                    <span>Low Maintenance Level</span>
                 </div>
                 <div>
                      <img src={circle2} height={10} width={10} />
-                    <inline>Medium Maintenance Level</inline>
+                    <span>Medium Maintenance Level</span>
                 </div>
                 <div>
                      <img src={circle3} height={10} width={10} />
-                    <inline>High Maintenance Level</inline>
+                    <span>High Maintenance Level</span>
                 </div>
             </div>
         </div>
