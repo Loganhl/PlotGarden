@@ -88,15 +88,19 @@ def plot_garden(garden_plot):
             crop = garden_plot[r, c]
             if crop:
                 color = crop_colors[crop] 
-                ax.add_patch(plt.Rectangle((c, garden_plot.shape[0] - r - 1), 1, 1, facecolor=color, edgecolor='black'))
-                ax.text(c + 0.5, garden_plot.shape[0] - r - 0.5, crop, ha='center', va='center', fontsize=8, color='black')
+                ax.add_patch(plt.Rectangle((c, garden_plot.shape[0] - r - 1), 1, 1, facecolor=color, edgecolor='none'))
+                # Capitalize the crop name
+                ax.text(c + 0.5, garden_plot.shape[0] - r - 0.5, crop.capitalize(), ha='center', va='center', fontsize=8, color='black')
 
     ax.set_xticks(np.arange(0, garden_plot.shape[1] + 1, 1))
     ax.set_yticks(np.arange(0, garden_plot.shape[0] + 1, 1))
     ax.grid(True)
 
-    plt.title('Clustered Garden Plot with Dimensions')
     plt.gca().set_aspect('equal', adjustable='box')
+    
+    # Save the plot as a PNG with transparent background
+    plt.savefig('garden_plot.png', transparent=True, bbox_inches='tight', pad_inches=0)
+
     plt.show()
 
 plot_garden(garden)
