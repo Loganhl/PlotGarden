@@ -49,6 +49,25 @@ def get_gardens(id):
 
     return jsonify([dict(garden) for garden in gardens])
 
+@app.route('/api/garden/<int:id>', methods=["GET"])
+def get_garden(id):
+    conn = get_db_connection()
+    garden = conn.execute('SELECT * FROM gardens WHERE garden_id = ?', (id,)).fetchone()
+    conn.close()
+
+    if garden is None:
+        return jsonify({"error": "Garden not found"}), 404
+    
+    return jsonify(dict(garden))
+
+@app.route('/api/crops/<int:id>', methods=["GET"])
+def get_crops(id):
+    conn = get_db_connection()
+    crops = conn.execute('SELECT * FROM crops WHERE garden_id = ?', (id, )).fetchall()
+    conn.close()
+
+    return jsonify([dict(crop) for crop in crops])
+
 
 @app.route('/api/gardens', methods=["POST"])
 def add_garden():
