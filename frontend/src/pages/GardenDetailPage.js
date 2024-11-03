@@ -57,26 +57,29 @@ function GardenDetailPage(){
 
     const uniqueCrops = [...new Map(crops.map(crop => [crop.crop_name, crop])).values()];
 
-    return(
-        <div className = "garden-detail">
-            <h1>{garden.garden_name}</h1>
-            <img></img>
-            <h2>Crops</h2>
-            <div className="crops">
-                <ul>
-                    {uniqueCrops.length > 0 ? (
-                        uniqueCrops.map(crop => (
-                            <Link key={crop.crop_id} to={`/crop/${crop.id}`} style={{ textDecoration: 'none' }}>
-                                <li>{crop.crop_name}</li>
-                            </Link>
-                        ))
-                    ) : (
-                        <li>No crops found.</li>
-                    )}
-                </ul>
-            </div> 
-            <div className = "garden-plot">
+    const plt_path = `../pltpng/${garden.garden_id}.png`;
 
+    return(
+        <div className="garden-detail">
+            <h1>{garden.garden_name}</h1>
+            <div className="garden-content">
+                <div className="crops">
+                    <h2>Crops</h2>
+                    <ul>
+                        {uniqueCrops.length > 0 ? (
+                            uniqueCrops.map(crop => (
+                                <Link key={crop.crop_id} to={`/crop/${crop.id}`} style={{ textDecoration: 'none' }}>
+                                    <li>{crop.crop_name}</li>
+                                </Link>
+                            ))
+                        ) : (
+                            <li>No crops found.</li>
+                        )}
+                    </ul>
+                </div>
+                <div className="garden-plot">
+                    <img src={plt_path} alt={`${garden.garden_name} Plot`} />
+                </div>
             </div>
             <div>
                 <p>{garden.description}</p>

@@ -537,7 +537,48 @@ ul {
 .garden-detail {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  padding: 20px;
   background-color: rgba(255, 255, 255, 0.25);
   border-radius: 15px;
 }
+
+.garden-content {
+  display: flex;
+  width: 100%;
+  max-width: 800px;
+  margin-top: 20px;
+}
+
+.crops {
+  flex: 1;
+  padding-right: 20px;
+  margin-left: 20px;
+}
+
+.crops ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.crops li {
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+
+.garden-plot {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.garden-plot img {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
 
