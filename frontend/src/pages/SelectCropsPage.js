@@ -109,31 +109,33 @@ function SelectCropsPage(){
                     }
                 </ul>
 
-                <div className='symbol-legend'>
-                    <h2>Symbol Legend</h2>
-                
-                    <div>
-                        <img className="symbol"  src={square}/>
-                        <span>Matches Garden Size</span>
+                <div>
+                    <div className='symbol-legend'>
+                        <h2>Symbol Legend</h2>
+                    
+                        <div className="legend-key">
+                            <img className="symbol"  src={square}/>
+                            <span>Matches Garden Size</span>
+                        </div>
+                        <div className="legend-key">
+                            <img className="symbol" src={star}/>
+                            <span>Matches Region</span>
+                        </div>
+                        <div className="legend-key">
+                            <img className="symbol"  src={circle1}/>
+                            <span>Low Maintenance Level</span>
+                        </div>
+                        <div className="legend-key">
+                            <img className="symbol"  src={circle2}/>
+                            <span>Medium Maintenance Level</span>
+                        </div>
+                        <div className="legend-key">
+                            <img className="symbol"  src={circle3}/>
+                            <span>High Maintenance Level</span>
+                        </div>
                     </div>
-                    <div>
-                        <img className="symbol" src={star}/>
-                        <span>Matches Region</span>
-                    </div>
-                    <div>
-                        <img className="symbol"  src={circle1}/>
-                        <span>Low Maintenance Level</span>
-                    </div>
-                    <div>
-                        <img className="symbol"  src={circle2}/>
-                        <span>Medium Maintenance Level</span>
-                    </div>
-                    <div>
-                        <img className="symbol"  src={circle3}/>
-                        <span>High Maintenance Level</span>
-                    </div>
+                    <button className="submit">Add Garden</button>
                 </div>
-                <button>Add Garden</button>
             </div>
         </div>
     )

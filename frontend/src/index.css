@@ -405,7 +405,7 @@ ul {
 .select-crop-page{
   display: flex;
   width: 80%;
-  margin: 20px;
+  margin: auto;
   align-self: center;
   justify-content: space-between;
 }
@@ -438,10 +438,20 @@ ul {
 
 .symbol-legend{
   background-color: rgba(255, 255, 255, 0.25);
-  height: 300px;
-  margin-left: 0px;
+  padding: 20px;
+  margin: 50px;
   flex: 1 0 auto;
   text-align: left;
+}
+
+.symbol-legend h2{
+  text-align: center;
+}
+
+.legend-key{
+  padding: 10px;
+  display: flex;
+  align-items: center;
 }
 
 .symbol{
