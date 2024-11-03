@@ -77,9 +77,6 @@ function GardenDetailPage(){
                         )}
                     </ul>
                 </div>
-                <div className="garden-plot">
-                    <img src={plt_path} alt={`${garden.garden_name} Plot`} />
-                </div>
             </div>
             <div>
                 <p>{garden.description}</p>
