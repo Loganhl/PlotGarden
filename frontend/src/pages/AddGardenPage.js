@@ -26,12 +26,25 @@ function AddGardenPage(){
         if (!state.garden_name) {
             newErrors.garden_name = "Garden name is required";
         }
+
+        if (!state.garden_len) {
+            newErrors.garden_len = "Garden length is required";
+        } else if (!/^\d+$/.test(state.garden_len)) {
+            newErrors.garden_len = "Garden length must be a number";
+        }
+
+        if (!state.garden_wid) {
+            newErrors.garden_wid = "Garden width is required";
+        } else if (!/^\d+$/.test(state.garden_wid)) {
+            newErrors.garden_wid = "Garden width must be a number";
+        }
+
         if (!state.location) {
             newErrors.location = "Location is required";
+        } else if (!/^\d{5}$/.test(state.location)) {
+            newErrors.location = "Location must be a 5-digit zip code";
         }
-        if (!state.garden_len || !state.garden_wid) {
-            newErrors.garden_size = "Garden size (length and width) is required";
-        }
+
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -132,8 +145,8 @@ function AddGardenPage(){
                     />
                     <span>ft</span>
                 </div>
-                    {errors.garden_size && <div className="error">{errors.garden_size}</div>}
-                </div>
+                {errors.garden_len && <div className="error">{errors.garden_len}</div>}
+                {errors.garden_wid && <div className="error">{errors.garden_wid}</div>}                </div>
 
                 <div className="form-group" id="location">
                     <label for="zipCode">Zip Code: </label>
