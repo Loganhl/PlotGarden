@@ -54,21 +54,19 @@ function CropPage() {
                             {plant.watering_general_benchmark && <li>Watering Benchmark: {plant.watering_general_benchmark}</li>}
                             {plant.sunlight && <li>Sunlight Requirements: {plant.sunlight}</li>}
                             {plant.hardiness && <li>Hardiness Zone: {plant.hardiness}</li>}
-                            {plant.attracts && <li>Watering Period: {plant.attracts}</li>}
-                            {plant.propagation && <li>Propogation: {plant.propagation}</li>}
-                            {plant.watering_period && <li>Watering Period: {plant.watering_period}</li>}
-                            {plant.flowers && <li>Flowers: Yes</li> || <li>Flowers: No</li>}
+                            {plant.attracts && <li>Attracts: {plant.attracts}</li>}
+                            {plant.propagation && <li>Propagation: {plant.propagation}</li>}
+                            {plant.flowers !== undefined && <li>Flowers: {plant.flowers ? 'Yes' : 'No'}</li>}
                             {plant.flowering_season && <li>Flowering Season: {plant.flowering_season}</li>}
                             {plant.soil && <li>Soil: {plant.soil}</li>}
-                            {plant.fruits && <li>Fruits: Yes</li> || <li>Fruits: No</li>}
-                            {plant.edible_fruit && <li>Edible Fruits: Yes</li> || <li>Edible Fruits: No</li>}
+                            {plant.fruits !== undefined && <li>Fruits: {plant.fruits ? 'Yes' : 'No'}</li>}
+                            {plant.edible_fruit !== undefined && <li>Edible Fruits: {plant.edible_fruit ? 'Yes' : 'No'}</li>}
                             {plant.harvest_season && <li>Harvest Season: {plant.harvest_season}</li>}
-                            {plant.leaf && <li>Leaf: Yes</li> || <li>Leaf: No</li>}
-                            {plant.edible_leaf && <li>Edible Leaf: Yes</li> || <li>Edible Leaf: No</li>}
-                            {plant.edible_fruit && <li>Edible Fruits: Yes</li> || <li>Edible Fruits: No</li>}
+                            {plant.leaf !== undefined && <li>Leaf: {plant.leaf ? 'Yes' : 'No'}</li>}
+                            {plant.edible_leaf !== undefined && <li>Edible Leaf: {plant.edible_leaf ? 'Yes' : 'No'}</li>}
                             {plant.growth_rate && <li>Growth Rate: {plant.growth_rate}</li>}
                             {plant.maintenance && <li>Maintenance: {plant.maintenance}</li>}
-                            {plant.poisonous_to_pets && <li>Poisonous to Pets: Yes</li> || <li>Poisonous to Pets: No</li>}
+                            {plant.poisonous_to_pets !== undefined && <li>Poisonous to Pets: {plant.poisonous_to_pets ? 'Yes' : 'No'}</li>}
                             {plant.care_level && <li>Care Level: {plant.care_level}</li>}
                         </ul>
                     </div>
