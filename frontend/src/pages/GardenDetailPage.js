@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
+
+const placeholderImage = "/logo.png"
 
 function GardenDetailPage(){
     const { id } = useParams();
@@ -54,30 +56,31 @@ function GardenDetailPage(){
         return <h2>{error}</h2>;
     }
 
-    const uniqueCrops = [...new Set(crops.map(crop => crop.crop_name))];
+    const uniqueCrops = [...new Map(crops.map(crop => [crop.crop_name, crop])).values()];
 
     return(
         <div>
             <h1>{garden.garden_name}</h1>
 
             <h2>Crops</h2>
-            <div>
+            <div className="crops">
                 <ul>
                     {uniqueCrops.length > 0 ? (
-                        uniqueCrops.map(cropName => (
-                            <li key={cropName}>{cropName}</li>
+                        uniqueCrops.map(crop => (
+                            <Link key={crop.crop_id} to={`/crop/${crop.id}`} style={{ textDecoration: 'none' }}>
+                                <li>{crop.crop_name}</li>
+                            </Link>
                         ))
                     ) : (
                         <li>No crops found.</li>
                     )}
                 </ul>
             </div>
-            <div>
-                
+            <div className = "garden-image">
+                <img src={garden.image_link} alt="Garden image"/>
             </div>
             <div>
                 <p>{garden.description}</p>
-                <p></p>
             </div>
         </div>
     )

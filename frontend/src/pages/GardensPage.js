@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth0 } from '@auth0/auth0-react';
+import { Link } from 'react-router-dom';
+
+const placeholderImage = "/logo.png"
 
 function GardensPage() {
     const [gardens, setGardens] = useState([]);
@@ -32,27 +35,30 @@ function GardensPage() {
             isMounted = false; // Cleanup on unmount
         };
     }, [user, isLoading]);
-
-    const handleAddGarden = () => {
-        console.log("Add garden")
+    
+    const GardenCard = ({ garden }) => {
+        return (
+            <div className="garden-card">
+                <Link to={`/garden/${garden.garden_id}`} style={{ textDecoration: 'none' }}>
+                    <img src={garden.image_link || placeholderImage} alt="Garden Image" />
+                    <h3 className="garden-name">{garden.garden_name}</h3>
+                </Link>
+            </div>
+        );
     };
-    console.log(gardens);
 
     return(
-        <div>
-            <h1>Gardens</h1>
-            {gardens.length > 0 ? (
-                <ul>
-                    {gardens.map(garden => (
-                        <li key={garden.garden_id}>
-                            <img src={garden.image_link} alt="garden image" />
-                            <h2>{garden.garden_name}</h2>
-                        </li>
-                    ))}
-                </ul>
-            ) : (
-                <p>No gardens found.</p>
-            )}
+        <div className="garden-grid">
+            <Link to="/add-garden" className="add-garden-card" style={{ textDecoration: 'none' }}>
+                <div>
+                    <h2>+</h2>
+                    <h3>Add New Garden</h3>
+                </div>
+            </Link>
+
+            {gardens.map(garden => (
+                <GardenCard key={garden.garden_id} garden={garden} />
+            ))}
         </div>
     )
 }
