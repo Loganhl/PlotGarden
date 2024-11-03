@@ -10,6 +10,7 @@ body {
   color: white;
 }
 
+
 nav {
   display: flex;
   justify-content: space-between;
@@ -135,6 +136,7 @@ nav {
 
 .form-group label {
   margin-right: 5px;
+  color:#164A41;
 }
 
 .form-group input {
@@ -142,6 +144,7 @@ nav {
   padding: 5px;
   text-align: center;
   width: 171px;
+
 }
 
 input[name="gardenLength"], input[name="gardenWidth"] {
@@ -170,43 +173,35 @@ ul {
   list-style-type: none;
 }
 
-.crop-container {
-  display: flex;
-  flex-direction: column;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
 .name-container {
   text-transform: capitalize;
-  text-align: left;
-  margin-left: 30px;
 }
 
 .name-container h2 {
   font-style: italic;
+  color:#F1b24a;
 }
 
 .content-container {
   display: flex;
-  margin-bottom: 20px;
+  margin: 15px;
 }
 
 .image-container {
-  flex: 3;
+  flex: 2;
   min-width: 200px;
 }
 
 .image-container img {
   width: 100%;
-  height: auto;
-  border-radius: 20px;
+  height: 500px;
+  object-fit: cover;
+  border-radius: 15px;
 }
 
 .info-container {
   flex: 2;
   padding: 20px;
-
 }
 
 .description-container {
@@ -256,7 +251,19 @@ ul {
   height: 150px;
   object-fit: cover;
   border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
   transition: transform 0.2s;
+}
+
+.plant-image:hover {
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+.no-image-text {
+    font-size: 0.9rem;
+    color: gray;
+    margin-top: 4px;
 }
 
 @media (max-width: 768px) {
@@ -264,4 +271,97 @@ ul {
     flex-direction: column;
   }
 
+}
+
+.slideshow {
+  position: relative;
+  justify-content: center; 
+  align-items: center; 
+}
+
+.guide-page {
+  background-color: rgba(255, 255, 255, 0.25);
+  border-radius: 15px;
+  padding: 5px;
+}
+
+.guide-page h1 {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  font-size: 50px;
+  background-color: rgba(255, 255, 255, 0.25);
+  color:#164A41;
+  margin: 15px;
+  height: 70px;
+  border-radius: 15px;
+}
+
+.info {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: justify;
+  font-size: medium;
+}
+
+.info h3 {
+  text-align: center;
+  font-size: 22px;
+}
+
+.info li {
+  text-transform: none;
+  list-style: circle;
+}
+
+.prev, .next {
+  cursor: pointer;       
+  position: absolute;   
+  top: 50%;             
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.7);
+  border: none;         
+  padding: 10px;        
+  z-index: 1;
+  border-radius: 3px; 
+}
+
+.prev:hover, .next:hover {
+  background-color: #164A41;
+}
+
+.prev {
+  left: 70px; 
+}
+
+.next {
+  right: 70px; 
+}
+
+.slides {
+  display: none; 
+}
+
+.dot {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active, .dot:hover {
+  background-color: #717171;
+}
+
+.fade {
+  animation: fade 1s;
+}
+
+@keyframes fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
