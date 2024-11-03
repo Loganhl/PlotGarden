@@ -6,7 +6,6 @@ from dotenv import load_dotenv
 import os
 from create_cluster import create_garden_plot
 load_dotenv()
-import threading
 
 app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
@@ -63,7 +62,6 @@ def get_crop(id):
     
     return jsonify(dict(crop))
 
-# In your add_crops function:
 @app.route('/api/crop', methods=["POST"])
 def add_crops():
     conn = get_db_connection()
@@ -80,22 +78,20 @@ def add_crops():
         return jsonify({"error": "Missing required fields"}), 400
 
     insert_query = '''
-        INSERT INTO crops (garden_id, id, crop_name)
-        VALUES (?, ?, ?)
+        INSERT INTO crops (garden_id,id,crop_name)
+        VALUES (?,?,?)
     '''
 
-    params = (garden_id, id, crop_name)
+    params = (garden_id,id,crop_name)
 
     try:
         conn.execute(insert_query, params)
         conn.commit()
-
-        # Run create_garden_plot in a separate thread
-        threading.Thread(target=create_garden_plot, args=(garden_id,)).start()
-
+        ##create_garden_plot(garden_id)
         return jsonify({"garden_id": garden_id}), 201 
     except Exception as e:
         return jsonify({"error": str(e)}), 400
+
     finally:
         conn.close()
 
