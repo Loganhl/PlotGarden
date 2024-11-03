@@ -63,10 +63,9 @@ function GardenDetailPage(){
     return(
         <div className="garden-detail">
             <h1>{garden.garden_name}</h1>
-            <div className="garden-content">
+                <div className="garden-content">
                 <div className="crops">
                     <h2>Crops</h2>
-                    <img src={plot_img}></img>
                     <ul>
                         {uniqueCrops.length > 0 ? (
                             uniqueCrops.map(crop => (
@@ -79,6 +78,7 @@ function GardenDetailPage(){
                         )}
                     </ul>
                 </div>
+                <img src={plot_img}></img>
             </div>
             <div>
                 <p>{garden.description}</p>

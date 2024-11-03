@@ -553,7 +553,7 @@ ul {
 .crops {
   flex: 1;
   padding-right: 20px;
-  margin-left: 20px;
+  margin-left: 0px;
 }
 
 .crops ul {
@@ -581,4 +581,13 @@ ul {
   border-radius: 8px;
 }
 
+@media (max-width: 768px) {
+  .garden-content {
+      flex-direction: column;
+  }
 
+  .crops, .garden-plot {
+      margin-right: 0;
+      margin-bottom: 20px;
+  }
+}
