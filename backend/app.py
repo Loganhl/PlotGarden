@@ -2,15 +2,14 @@ import sqlite3
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from pairing import present_plant_ids
-from dotenv import load_dotenv
-import os
+
 from create_cluster import create_garden_plot
-load_dotenv()
+
 
 app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
 
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+app.config['SECRET_KEY'] = 'secret key'
 
 def get_db_connection():
     print("Connected to Database")
