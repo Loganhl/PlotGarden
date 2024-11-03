@@ -3,7 +3,7 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 import os
 from pairing import present_plant_ids
-
+from create_cluster import create_garden_plot
 
 app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
@@ -86,6 +86,7 @@ def add_crops():
     try:
         conn.execute(insert_query, params)
         conn.commit()
+        create_garden_plot(garden_id)
         return jsonify({"garden_id": garden_id}), 201 
     except Exception as e:
         return jsonify({"error": str(e)}), 400
