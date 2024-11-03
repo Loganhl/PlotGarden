@@ -1,62 +1,57 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { useAuth0 } from '@auth0/auth0-react';
 
 function GardensPage() {
-    const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
     const [gardens, setGardens] = useState([]);
-    const [loading, setLoading] = useState(true); // To manage loading state
+    const { user, isLoading } = useAuth0();
 
     useEffect(() => {
+        let isMounted = true;
+    
         const fetchGardens = async () => {
-            if (isAuthenticated && user) {
-                setLoading(true);
+            if (!isLoading && user) {
+                const user_id = user.sub.slice(-9);
+                console.log("Fetching gardens for user_id:", user_id);
                 try {
-                    const token = await getAccessTokenSilently();
-                    const response = await fetch(`/api/gardens?userId=${user.sub}`, {
-                        headers: {
-                            Authorization: `Bearer ${token}`
-                        }
-                    });
-                    const data = await response.json();
-                    setGardens(data);
+                    const response = await axios.get(`http://127.0.0.1:5000/api/gardens/${user_id}`);
+                    if (isMounted) {
+                        setGardens(response.data);
+                    }
                 } catch (error) {
-                    console.error("Error fetching gardens:", error);
-                } finally {
-                    setLoading(false);
+                    if (isMounted) {
+                        console.error("There was an error fetching the garden data!", error);
+                    }
                 }
             }
         };
-        
+    
         fetchGardens();
-    }, [isAuthenticated, user, getAccessTokenSilently]);
+    
+        return () => {
+            isMounted = false; // Cleanup on unmount
+        };
+    }, [user, isLoading]);
 
     const handleAddGarden = () => {
         console.log("Add garden")
     };
+    console.log(gardens);
 
     return(
         <div>
             <h1>Gardens</h1>
-            {isAuthenticated ? (
-                loading ? (
-                    <p>Loading...</p>
-                ) : (
-                    <div>
-                        {gardens.length > 0 ? (
-                            gardens.map((garden) => (
-                                <div key={garden.id} className="garden-card">
-                                    <h2>Garden ID: {garden.id}</h2>
-                                    <p>Name: {garden.name}</p>
-                                </div>
-                            ))
-                        ) : (
-                            <p>No gardens found</p>
-                        )}
-                        <button onClick={handleAddGarden}>Add Garden</button>
-                    </div>
-                )
+            {gardens.length > 0 ? (
+                <ul>
+                    {gardens.map(garden => (
+                        <li key={garden.garden_id}>
+                            <img src={garden.image_link} alt="garden image" />
+                            <h2>{garden.garden_name}</h2>
+                        </li>
+                    ))}
+                </ul>
             ) : (
-                <p>Please log in to view your gardens.</p>
+                <p>No gardens found.</p>
             )}
         </div>
     )
