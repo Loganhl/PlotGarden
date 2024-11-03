@@ -12,6 +12,9 @@ import GardenDetailPage from './pages/GardenDetailPage';
 import GardensPage from './pages/GardensPage';
 import CropPage from './pages/CropPage';
 import SelectCropsPage from './pages/SelectCropsPage';
+import GuidePage from './pages/GuidePage';
+import AddGardenPage from './pages/AddGardenPage';
+import AllCropsPage from './pages/AllCropsPage'
 import GuidesPage from './pages/GuidesPage';
 import AddGardenPage from './pages/AddGardenPage';
 import CropList from './pages/CropList';
@@ -57,10 +60,16 @@ function App() {
             <SelectCropsPage />
           )
         }/>
-        <Route path="/guides" element={
-            <GuidesPage />
+        <Route path="/all-crops" element={
+          isAuthenticated && (
+            <AllCropsPage />
+          )
         }/>
-
+        <Route path="/guide" element={
+          isAuthenticated && (
+            <GuidePage />
+          )
+          }/>
       </Routes>
 
     </div>
