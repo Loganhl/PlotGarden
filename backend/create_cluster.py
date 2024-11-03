@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from grab_calc import get_crop_counts, get_crops_info, get_garden_dimensions
 import colorsys
 import os
+import matplotlib.patheffects as path_effects
 
 def create_garden_plot(garden_id):
     # Crop information: name and dimensions (width, height).
@@ -90,8 +91,10 @@ def create_garden_plot(garden_id):
                 if crop:
                     color = crop_colors[crop] 
                     ax.add_patch(plt.Rectangle((c, garden_plot.shape[0] - r - 1), 1, 1, facecolor=color, edgecolor='none'))
-                    # Capitalize the crop name
-                    ax.text(c + 0.5, garden_plot.shape[0] - r - 0.5, crop.capitalize(), ha='center', va='center', fontsize=8, color='white')  # Change text color to white
+
+                    # Outline effect around the text
+                    text = ax.text(c + 0.5, garden_plot.shape[0] - r - 0.5, crop.capitalize(), ha='center', va='center', fontsize=8, color='white')
+                    text.set_path_effects([path_effects.withStroke(linewidth=2, foreground='black')])  # Outline in black
 
         ax.set_xticks(np.arange(0, garden_plot.shape[1] + 1, 1))
         ax.set_yticks(np.arange(0, garden_plot.shape[0] + 1, 1))
