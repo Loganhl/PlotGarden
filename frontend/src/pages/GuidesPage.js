@@ -1,6 +1,6 @@
+import React, { useEffect } from 'react';
 
 let slideIndex = 1;
-showSlides(slideIndex);
 
 function plusSlides(n) {
     showSlides(slideIndex += n);
@@ -33,6 +33,9 @@ function showSlides(n) {
 }
 
 function GuidesPage(){
+    useEffect (() => {
+        showSlides(slideIndex);
+    }, []);
     return(
         <div className="guide-page">
             <h1>Plant Guide</h1>

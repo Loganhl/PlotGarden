@@ -7,6 +7,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 
 
 import Navbar from './components/Navbar';
+import LoginMessage from './components/LoginMessage';
 import LandingPage from './pages/LandingPage';
 import GardenDetailPage from './pages/GardenDetailPage';
 import GardensPage from './pages/GardensPage';
@@ -33,19 +34,13 @@ function App() {
           <LandingPage />
         }/>
         <Route path="/gardens" element={
-          isAuthenticated && (
-            <GardensPage />
-          )
+          isAuthenticated ? <GardensPage /> : <LoginMessage />
         }/>
         <Route path="/garden/:id" element={
-          isAuthenticated && (
-            <GardenDetailPage />
-          )
+            isAuthenticated ? <GardenDetailPage /> : <LoginMessage />
         }/>
         <Route path="/add-garden" element={
-          isAuthenticated && (
-            <AddGardenPage />
-          )
+            isAuthenticated ? <AddGardenPage /> : <LoginMessage />
         }/>
         <Route path="/crops" element={
           <CropList />
@@ -64,9 +59,7 @@ function App() {
           )
         }/>
         <Route path="/guide" element={
-          isAuthenticated && (
             <GuidesPage />
-          )
           }/>
       </Routes>
 
