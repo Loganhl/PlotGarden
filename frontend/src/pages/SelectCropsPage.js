@@ -12,7 +12,7 @@ import circle3 from '../assets/circle-3.png'
 
 function SelectCropsPage(){
     const { id } = useParams();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const [plants, setPlants] = useState([]);
     const [specifics, setSpecifics] = useState([]);
@@ -56,22 +56,34 @@ function SelectCropsPage(){
         event.preventDefault();
 
         for(let i = 0; i < selectedCrops.length; i++){
-            console.log(selectedCrops[i]);
 
             const cropData = {
-                garden_id: {id}.id,
+                garden_id: id,
                 crop_id: selectedCrops[i].id,
                 crop_name: selectedCrops[i].name
             }
 
-            console.log(cropData);
-        
-            axios.post(`http://localhost:5000/api/crop`, cropData)
-                .then(res => {
-                    console.log(res.data);
+            try {
+                const response = await fetch('http://localhost:5000/api/crop', { 
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(cropData) 
+                });
+    
+                if (response.ok) {
+                    const data = await response.json(); 
+                    console.log('Crop added'); 
                     navigate('/gardens');
-                })
-                .catch(err => console.log(err))
+                    
+                } else {
+                    const errorData = await response.json();
+                    console.error('Error adding crops:', errorData.error);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
         }
     };
 
@@ -154,7 +166,7 @@ function SelectCropsPage(){
                             <span>High Maintenance Level</span>
                         </div>
                     </div>
-                    <button className="submit" onClick={handleSubmit}>Add Garden</button>
+                    <button className="submit" onClick={handleSubmit}>Add to Garden</button>
                 </div>
             </div>
         </div>

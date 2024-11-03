@@ -4,7 +4,7 @@ from flask_cors import CORS
 from pairing import present_plant_ids
 from dotenv import load_dotenv
 import os
-
+from create_cluster import create_garden_plot
 load_dotenv()
 
 app = Flask(__name__)
@@ -13,6 +13,7 @@ CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
 def get_db_connection():
+    print("Connected to Database")
     db_path = 'database/database.db'
     conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
@@ -67,20 +68,26 @@ def add_crops():
 
     data = request.get_json()
 
+    print(data)
+
     garden_id = data.get('garden_id')
-    crop_id = data.get('crop_id')
+    id = data.get('crop_id')
     crop_name = data.get('crop_name')
 
+    if garden_id is None or id is None or crop_name is None:
+        return jsonify({"error": "Missing required fields"}), 400
+
     insert_query = '''
-        INSERT INTO crops (garden_id,crop_id,crop_name)
+        INSERT INTO crops (garden_id,id,crop_name)
         VALUES (?,?,?)
     '''
 
-    params = (garden_id,crop_id,crop_name)
+    params = (garden_id,id,crop_name)
 
     try:
         conn.execute(insert_query, params)
         conn.commit()
+        create_garden_plot(garden_id)
         return jsonify({"garden_id": garden_id}), 201 
     except Exception as e:
         return jsonify({"error": str(e)}), 400
