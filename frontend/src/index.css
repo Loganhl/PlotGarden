@@ -489,3 +489,48 @@ ul {
   height: 20px;
   width: 20px;
 }
+
+.garden-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+  padding: 20px;
+}
+
+.garden-card {
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.25);
+  transition: box-shadow 0.3s;
+  height: 275px;
+}
+
+.garden-card img {
+  border-radius: 10px;;
+  width: 100%;
+  object-fit: cover;
+}
+
+.garden-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.garden-name {
+  color: white;
+}
+
+.add-garden-card {
+  display: flex;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.25);
+  align-items: center;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: box-shadow 0.3s;
+  color: white;
+}
+
+.add-garden-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
