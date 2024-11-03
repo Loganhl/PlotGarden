@@ -2,6 +2,7 @@ import sqlite3
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import os
+from pairing import present_plant_ids
 
 
 app = Flask(__name__)
@@ -27,6 +28,26 @@ def get_plants():
     conn.close()
 
     return jsonify([dict(plant) for plant in plants])
+
+@app.route('/api/present-plants/<int:garden_id>', methods=["GET"])
+def get_present_plants(garden_id):
+    print(f"Received request for present plants with garden ID: {garden_id}")  # Test
+    conn = get_db_connection()  # Test
+    try:
+        plants_data = present_plant_ids(garden_id)
+
+        if plants_data:
+            #print(f"Plants data retrieved: {plants_data}") 
+            return jsonify(plants_data)
+        else:
+            print("No plants found for this garden ID.")
+            return jsonify({"message": "No plants found for this garden ID."}), 404
+            
+    except Exception as e:
+        print(f"An error occurred: {e}")  
+        return jsonify({"error": str(e)}), 500 #server error response
+    finally:
+        conn.close()
     
 @app.route('/api/crop/<int:id>', methods=["GET"])
 def get_crop(id):
