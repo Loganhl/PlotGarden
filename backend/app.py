@@ -87,7 +87,7 @@ def add_crops():
     try:
         conn.execute(insert_query, params)
         conn.commit()
-        create_garden_plot(garden_id)
+        #create_garden_plot(garden_id)
         return jsonify({"garden_id": garden_id}), 201 
     except Exception as e:
         return jsonify({"error": str(e)}), 400

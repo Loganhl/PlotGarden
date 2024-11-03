@@ -99,7 +99,7 @@ def create_garden_plot(garden_id):
         plt.gca().set_aspect('equal', adjustable='box')
 
         # Create directory if it does not exist
-        output_dir = 'frontend/plotpng'
+        output_dir = 'src/frontend/plotpng'
         os.makedirs(output_dir, exist_ok=True)
 
         plt.savefig(os.path.join(output_dir, f'{garden_id}.png'), transparent=True, bbox_inches='tight', pad_inches=0)
