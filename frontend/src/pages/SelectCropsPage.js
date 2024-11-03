@@ -14,6 +14,8 @@ function SelectCropsPage(){
 
     const [specifics, setSpecifics] = useState([]);
 
+    const [selectedCrops, setSelectedCrops] = useState([]);
+
     const getPlants = () => {
         axios.get('http://127.0.0.1:5000/api/plants')
             .then(response => {
@@ -34,6 +36,24 @@ function SelectCropsPage(){
     });
     }
 
+    const handleCheckboxChange = (event) =>{
+        const checkedId = event.target.value;
+        console.log(checkedId);
+        console.log(event.target.checked);
+
+
+        setSelectedCrops(prevSelectedCrops => {
+            if (event.target.checked) {
+                // Add the new crop
+                return [...prevSelectedCrops, checkedId];
+            } else {
+                // Remove the crop
+                return prevSelectedCrops.filter(id => id !== checkedId);
+            }
+        });
+    
+        console.log(selectedCrops);
+    }
 
     useEffect(() => {
         getPlants();
@@ -54,7 +74,11 @@ function SelectCropsPage(){
                 {plants.map(plant => (
                     <li key={plant.id}>
                         <label>
-                            <input type="checkbox"></input>
+                            <input 
+                                type="checkbox" 
+                                value={plant.id}
+                                onChange={(event) => handleCheckboxChange(event)}
+                            ></input>
                             <Link to={`/crop/${plant.id}`}>{plant.common_name}</Link>
                         </label>
                         
