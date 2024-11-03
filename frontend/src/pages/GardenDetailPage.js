@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import plot_img from '../plotpng/1.png';
 
 
 function GardenDetailPage(){
@@ -65,6 +66,7 @@ function GardenDetailPage(){
             <div className="garden-content">
                 <div className="crops">
                     <h2>Crops</h2>
+                    <img src={plot_img}></img>
                     <ul>
                         {uniqueCrops.length > 0 ? (
                             uniqueCrops.map(crop => (
