@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
+import { useParams } from 'react-router-dom';
 import square from '../assets/square.png';
 import star from '../assets/star.png'
 import circle1 from '../assets/circle-1.png'
@@ -10,6 +11,8 @@ import circle3 from '../assets/circle-3.png'
 
 
 function SelectCropsPage(){
+    const { id } = useParams();
+
     const [plants, setPlants] = useState([]);
 
     const [specifics, setSpecifics] = useState([]);
@@ -27,7 +30,7 @@ function SelectCropsPage(){
     }
 
     const getSpecifics = () =>{
-        axios.get('http://127.0.0.1:5000/api/present-plants/1')
+        axios.get(`http://127.0.0.1:5000/api/present-plants/${id}`)
         .then(response => {
             setSpecifics(response.data);
     })

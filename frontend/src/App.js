@@ -48,7 +48,7 @@ function App() {
         <Route path="/crop/:id" element={ 
             <CropPage />
         }/>
-        <Route path="/select-crops" element={
+        <Route path="/select-crops/:id" element={
           isAuthenticated && (
             <SelectCropsPage />
           )
