@@ -16,6 +16,10 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
+def convert_user_id(user_id):
+    return user_id[-9:]
+
+
 @app.route('/api/plants', methods=['GET'])
 def get_plants():
     conn = get_db_connection()
@@ -35,15 +39,12 @@ def get_crop(id):
     
     return jsonify(dict(crop))
 
-@app.route('/api/gardens', methods=["GET"])
-def get_gardens():
-    user_id = request.args.get('userId')
-
-    if not user_id:
-        return jsonify({"error": "user_id is required"}), 400
+@app.route('/api/gardens/<int:id>', methods=["GET"])
+def get_gardens(id):
 
     conn = get_db_connection()
-    gardens = conn.execute('SELECT * FROM gardens WHERE user_id = ?', (user_id,)).fetchall()
+    gardens = conn.execute('SELECT * FROM gardens WHERE user_id = ?', (id,)).fetchall()
+    print(gardens)
     conn.close()
 
     return jsonify([dict(garden) for garden in gardens])
@@ -63,11 +64,13 @@ def add_garden():
     garden_width = data.get('garden_wid')
     user_id = data.get('user_id')
 
+    new_id = convert_user_id(user_id)
+
     insert_query = '''
         INSERT INTO gardens (garden_name, location, description, image_link, garden_len, garden_wid, user_id)
         VALUES (?, ?, ?, ?, ?, ?, ?)'''
     
-    params = (garden_name, location, description, image_link, garden_len, garden_width, user_id)
+    params = (garden_name, location, description, image_link, garden_len, garden_width, new_id)
 
     try:
         conn.execute(insert_query, params)
