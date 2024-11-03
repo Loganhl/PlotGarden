@@ -325,17 +325,10 @@ ul {
   transform: scale(1.05);
 }
 
-.no-image-text {
-    font-size: 0.9rem;
-    color: gray;
-    margin-top: 4px;
-}
-
 @media (max-width: 768px) {
   .content-container {
     flex-direction: column;
   }
-
 }
 
 .slideshow {
@@ -504,6 +497,7 @@ ul {
   background-color: rgba(255, 255, 255, 0.25);
   transition: box-shadow 0.3s;
   height: 275px;
+  cursor: pointer;
 }
 
 .garden-card img {
@@ -534,3 +528,16 @@ ul {
 .add-garden-card:hover {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
+.crops li {
+  list-style:circle;
+  color: white;
+}
+
+.garden-detail {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(255, 255, 255, 0.25);
+  border-radius: 15px;
+}
+

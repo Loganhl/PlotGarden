@@ -3,8 +3,6 @@ import axios from 'axios';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Link } from 'react-router-dom';
 
-const placeholderImage = "/logo.png"
-
 function GardensPage() {
     const [gardens, setGardens] = useState([]);
     const { user, isLoading } = useAuth0();
@@ -40,7 +38,7 @@ function GardensPage() {
         return (
             <div className="garden-card">
                 <Link to={`/garden/${garden.garden_id}`} style={{ textDecoration: 'none' }}>
-                    <img src={garden.image_link || placeholderImage} alt="Garden Image" />
+                    <img src={garden.image_link} alt="Garden Image" />
                     <h3 className="garden-name">{garden.garden_name}</h3>
                 </Link>
             </div>

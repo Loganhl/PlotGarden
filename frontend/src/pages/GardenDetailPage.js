@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 
-const placeholderImage = "/logo.png"
 
 function GardenDetailPage(){
     const { id } = useParams();
@@ -59,9 +58,9 @@ function GardenDetailPage(){
     const uniqueCrops = [...new Map(crops.map(crop => [crop.crop_name, crop])).values()];
 
     return(
-        <div>
+        <div className = "garden-detail">
             <h1>{garden.garden_name}</h1>
-
+            <img></img>
             <h2>Crops</h2>
             <div className="crops">
                 <ul>
@@ -75,9 +74,9 @@ function GardenDetailPage(){
                         <li>No crops found.</li>
                     )}
                 </ul>
-            </div>
-            <div className = "garden-image">
-                <img src={garden.image_link} alt="Garden image"/>
+            </div> 
+            <div className = "garden-plot">
+
             </div>
             <div>
                 <p>{garden.description}</p>
