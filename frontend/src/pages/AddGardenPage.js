@@ -1,8 +1,12 @@
 import { useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useNavigate } from 'react-router-dom';
+
 
 function AddGardenPage(){
     const { user } = useAuth0();
+    const navigate = useNavigate();
+
     const [state, setState] = useState({
         garden_name: '',
         location: '',
@@ -77,6 +81,7 @@ function AddGardenPage(){
             if (response.ok) {
                 const data = await response.json(); 
                 console.log('Garden added with ID:', data.garden_id); 
+                navigate(`/select-crops/${data.garden_id}`);
                 
             } else {
                 const errorData = await response.json();

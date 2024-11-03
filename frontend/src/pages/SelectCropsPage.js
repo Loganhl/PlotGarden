@@ -12,7 +12,7 @@ import circle3 from '../assets/circle-3.png'
 
 function SelectCropsPage(){
     const { id } = useParams();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const [plants, setPlants] = useState([]);
     const [specifics, setSpecifics] = useState([]);
